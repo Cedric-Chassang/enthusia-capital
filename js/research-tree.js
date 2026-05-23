@@ -11,7 +11,7 @@
 // one at finnhub.io/dashboard, replacing both .env and the constant below,
 // updating the FINNHUB_API_KEY secret in GitHub Actions, then commit + push.
 // Monitor Finnhub dashboard usage occasionally for unusual spikes.
-const FINNHUB_PUBLIC_KEY = d88ons9r01qq43441kdgd88ons9r01qq43441ke0;
+const FINNHUB_PUBLIC_KEY = 'd88ons9r01qq43441kdgd88ons9r01qq43441ke0';
 
 const INDEX_NAMES = {
   sp500:       'S&P 500',
