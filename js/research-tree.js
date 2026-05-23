@@ -1,5 +1,17 @@
 // Shared loader and renderers for market.html / sector.html / company.html
 // Reads data/companies.json (refreshed monthly by scripts/refresh-data.py).
+//
+// ── Finnhub key (CLIENT-SIDE — INTENTIONALLY PUBLIC) ──────────────────────
+// Used for /quote price polling. Finnhub free tier allows only one key per
+// account, so this is the SAME key as the one in .env / GitHub Secrets used
+// by the server workflows. The free-tier rate limit (60 calls/min) is shared
+// across both surfaces — if scraping abuse exhausts the budget, workflow
+// calls (calendar refresh, EPS history) may temporarily fail until the rate
+// limit resets. Mitigation: rotate the key periodically by generating a new
+// one at finnhub.io/dashboard, replacing both .env and the constant below,
+// updating the FINNHUB_API_KEY secret in GitHub Actions, then commit + push.
+// Monitor Finnhub dashboard usage occasionally for unusual spikes.
+const FINNHUB_PUBLIC_KEY = d88ons9r01qq43441kdgd88ons9r01qq43441ke0;
 
 const INDEX_NAMES = {
   sp500:       'S&P 500',
@@ -144,12 +156,13 @@ const INDEX_QUOTE_SYMBOL = {
   russell2000: 'IWM',   // iShares Russell 2000 ETF
 };
 
-// ── Live quote mount — polls /api/quote every 15s in US market hours ─────
+// ── Live quote mount — calls Finnhub directly, polls every 15s in US hours ─
 // Drops the price + change into the given element using the same .co-quote
-// styling used on company pages.
+// styling used on company pages. Static-friendly (no /api/* needed).
 function mountLiveQuote(el, ticker) {
   const node = typeof el === 'string' ? document.getElementById(el) : el;
   if (!node || !ticker) return;
+  if (!FINNHUB_PUBLIC_KEY || FINNHUB_PUBLIC_KEY.startsWith('REPLACE_ME')) return;
 
   function isMarketOpen() {
     try {
@@ -166,9 +179,11 @@ function mountLiveQuote(el, ticker) {
 
   async function refresh() {
     try {
-      const r = await fetch('/api/quote?ticker=' + encodeURIComponent(ticker));
+      const url = `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(ticker)}&token=${FINNHUB_PUBLIC_KEY}`;
+      const r = await fetch(url);
       if (!r.ok) return;
       const q = await r.json();
+      // Finnhub /quote returns { c, d, dp, h, l, o, pc, t }
       if (typeof q.c !== 'number' || q.c <= 0) {
         node.innerHTML = '';
         return;
