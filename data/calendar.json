@@ -1,8 +1,29 @@
 {
-  "lastUpdated": "2026-05-22T10:26:07.445Z",
-  "from": "2026-05-22",
-  "to": "2026-06-01",
+  "lastUpdated": "2026-05-23",
+  "from": "2026-05-23",
+  "to": "2026-06-02",
   "events": [
+    {
+      "symbol": "DG",
+      "date": "2026-06-02",
+      "hour": "",
+      "name": "Dollar General Corp",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/DG.png"
+    },
+    {
+      "symbol": "ULTA",
+      "date": "2026-06-02",
+      "hour": "",
+      "name": "Ulta Beauty Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ULTA.png"
+    },
+    {
+      "symbol": "PANW",
+      "date": "2026-06-02",
+      "hour": "amc",
+      "name": "Palo Alto Networks Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/PANW.png"
+    },
     {
       "symbol": "HPE",
       "date": "2026-06-01",
