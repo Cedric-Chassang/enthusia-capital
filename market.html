@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title id="page-title">Market — Enthusia Capital</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="ticker-bar"><div class="ticker-track" id="ticker-track"></div></div>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-mark">
+      <svg width="63" height="40" viewBox="5 15 155 90" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 13,18.5 H 58 L 49,32.5 H 13 Q 10,32.5 10,29.5 V 21.5 Q 10,18.5 13,18.5 Z" fill="#cccccc"/>
+        <path d="M 13,49 H 42 V 63 H 13 Q 10,63 10,60 V 52 Q 10,49 13,49 Z" fill="#cccccc"/>
+        <path d="M 13,79.5 H 49 L 58,93.5 H 13 Q 10,93.5 10,90.5 V 82.5 Q 10,79.5 13,79.5 Z" fill="#cccccc"/>
+        <path d="M 111.7 30.8 A 32 32 0 1 0 111.7 81.2" fill="none" stroke="#cccccc" stroke-width="11" stroke-linecap="butt"/>
+        <polygon points="128.98,66.30 116.86,98.10 95.14,69.30" fill="#2e7d52"/>
+      </svg>
+    </div>
+    <div class="logo-text"><span style="font-weight:500">ENTHUSIA</span> <span style="font-weight:300">CAPITAL</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="research.html" class="active">Market Research</a>
+  </div>
+</nav>
+
+<div class="report-hero" id="hero">
+  <div class="report-hero-inner" id="hero-inner">
+    <div class="tree-status"><i class="ti ti-loader-2"></i>Loading…</div>
+  </div>
+</div>
+
+<div class="tree-wrap">
+  <div id="tree-content"></div>
+</div>
+
+<footer>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
+</footer>
+
+<script src="js/research-tree.js"></script>
+<script>
+(async function () {
+  const ix = RT.qp('ix');
+  const hero = document.getElementById('hero-inner');
+  const content = document.getElementById('tree-content');
+
+  if (!ix || !RT.INDEX_NAMES[ix]) {
+    hero.innerHTML = RT.breadcrumbHTML([
+      { label: 'Market Research', href: 'research.html' },
+      { label: 'Unknown index' },
+    ]) + '<h1>Unknown index</h1><p>Specify <code>?ix=sp500</code>, <code>?ix=nasdaq100</code> or <code>?ix=russell2000</code>.</p>';
+    return;
+  }
+
+  let data;
+  try {
+    data = await RT.loadData();
+  } catch (e) {
+    hero.innerHTML = RT.breadcrumbHTML([
+      { label: 'Market Research', href: 'research.html' },
+      { label: RT.INDEX_NAMES[ix] },
+    ]) + `<h1>${RT.esc(RT.INDEX_NAMES[ix])}</h1><p>Data is being refreshed. Please check back once the monthly snapshot has been generated.</p>`;
+    return;
+  }
+
+  document.getElementById('page-title').textContent = RT.INDEX_NAMES[ix] + ' — Enthusia Capital';
+
+  // Compute sector counts within this index
+  const tickers = data.indices[ix]?.tickers || [];
+  const bySector = {};
+  for (const t of tickers) {
+    const c = data.companies[t];
+    if (!c) continue;
+    const s = c.sector || 'Other';
+    (bySector[s] ||= []).push(t);
+  }
+
+  // Build the hero (header section)
+  hero.innerHTML = `
+    ${RT.breadcrumbHTML([
+      { label: 'Market Research', href: 'research.html' },
+      { label: RT.INDEX_NAMES[ix] },
+    ])}
+    ${RT.metaHTML(RT.INDEX_NAMES[ix], data.lastUpdated)}
+    <h1>${RT.esc(RT.INDEX_NAMES[ix])} <span class="co-quote" id="co-quote"></span></h1>
+    <p>${RT.esc(RT.INDEX_DESCRIPTIONS[ix])}</p>
+  `;
+
+  // Inline live quote using the index proxy symbol
+  if (RT.INDEX_QUOTE_SYMBOL[ix]) {
+    RT.mountLiveQuote('co-quote', RT.INDEX_QUOTE_SYMBOL[ix]);
+  }
+
+  // Compute aggregate market cap per sector (in $ millions, per Finnhub).
+  // Falls back to company count if no market-cap data is available yet.
+  const sectorCap = {};
+  let totalCap = 0;
+  for (const [k, ts] of Object.entries(bySector)) {
+    sectorCap[k] = ts.reduce((sum, t) => sum + (data.companies[t]?.marketCap || 0), 0);
+    totalCap += sectorCap[k];
+  }
+  const hasCap = totalCap > 0;
+
+  function formatCap(millions) {
+    if (!millions) return '—';
+    const bn = millions / 1000;
+    if (bn >= 1000) return '$' + (bn / 1000).toFixed(1) + 'T';
+    if (bn >= 100)  return '$' + Math.round(bn) + 'B';
+    if (bn >= 10)   return '$' + bn.toFixed(0) + 'B';
+    return '$' + bn.toFixed(1) + 'B';
+  }
+
+  // Sectors that have at least one company in this index, sorted by market cap desc
+  // (falls back to the canonical SECTORS order if no cap data is available).
+  let available = RT.SECTORS.filter(s => bySector[s.key] && bySector[s.key].length > 0);
+  if (hasCap) {
+    available = available.slice().sort((a, b) => (sectorCap[b.key] || 0) - (sectorCap[a.key] || 0));
+  }
+  if (available.length === 0) {
+    content.innerHTML = RT.statusHTML('ti-mood-empty', 'No companies found for this index.');
+    return;
+  }
+
+  // Determine the initial active sector: from URL ?sec=, else first in sorted order
+  const urlSec = RT.qp('sec');
+  let activeSec = (urlSec && available.find(s => s.key === urlSec)) ? urlSec : available[0].key;
+
+  // Render the sidebar tab nav + content area
+  content.innerHTML = `
+    <div class="sector-layout">
+      <aside class="sector-tabs" id="sector-tabs">
+        ${available.map(s => {
+          const badge = hasCap ? formatCap(sectorCap[s.key]) : bySector[s.key].length;
+          return `
+          <button class="sector-tab${s.key === activeSec ? ' active' : ''}" data-sec="${RT.esc(s.key)}" title="${RT.esc(s.desc)}">
+            <i class="ti ${s.icon}"></i>
+            <span class="st-name">${RT.esc(s.key)}</span>
+            <span class="st-count">${badge}</span>
+          </button>`;
+        }).join('')}
+      </aside>
+      <main id="sector-content"></main>
+    </div>
+  `;
+
+  function renderCompanies(secKey) {
+    const tickerList = bySector[secKey] || [];
+    const list = tickerList
+      .map(t => ({ ticker: t, ...data.companies[t] }))
+      .filter(c => c.name)
+      .sort((a, b) => a.name.localeCompare(b.name));
+    if (!list.length) {
+      document.getElementById('sector-content').innerHTML = RT.statusHTML('ti-mood-empty', 'No companies in this sector.');
+      return;
+    }
+    const cards = list.map(c => `
+      <a class="co-card" href="company.html?ix=${encodeURIComponent(ix)}&t=${encodeURIComponent(c.ticker)}">
+        ${RT.logoHTML(c, 'co-thumb')}
+        <div>
+          <h4>${RT.esc(c.name)}</h4>
+          <div class="co-tic">${RT.esc(c.ticker)}</div>
+        </div>
+      </a>`).join('');
+    document.getElementById('sector-content').innerHTML = `<div class="co-grid">${cards}</div>`;
+  }
+
+  function selectTab(secKey) {
+    document.querySelectorAll('.sector-tab').forEach(b => b.classList.toggle('active', b.dataset.sec === secKey));
+    renderCompanies(secKey);
+    // Persist selection in URL so the tab is bookmarkable / back-button works
+    const u = new URL(location.href);
+    u.searchParams.set('sec', secKey);
+    history.replaceState({ sec: secKey }, '', u.toString());
+  }
+
+  document.querySelectorAll('.sector-tab').forEach(btn => {
+    btn.addEventListener('click', () => selectTab(btn.dataset.sec));
+  });
+
+  renderCompanies(activeSec);
+})();
+</script>
+<script src="ticker.js"></script>
+</body>
+</html>

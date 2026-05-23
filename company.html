@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title id="page-title">Company — Enthusia Capital</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="ticker-bar"><div class="ticker-track" id="ticker-track"></div></div>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-mark">
+      <svg width="63" height="40" viewBox="5 15 155 90" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 13,18.5 H 58 L 49,32.5 H 13 Q 10,32.5 10,29.5 V 21.5 Q 10,18.5 13,18.5 Z" fill="#cccccc"/>
+        <path d="M 13,49 H 42 V 63 H 13 Q 10,63 10,60 V 52 Q 10,49 13,49 Z" fill="#cccccc"/>
+        <path d="M 13,79.5 H 49 L 58,93.5 H 13 Q 10,93.5 10,90.5 V 82.5 Q 10,79.5 13,79.5 Z" fill="#cccccc"/>
+        <path d="M 111.7 30.8 A 32 32 0 1 0 111.7 81.2" fill="none" stroke="#cccccc" stroke-width="11" stroke-linecap="butt"/>
+        <polygon points="128.98,66.30 116.86,98.10 95.14,69.30" fill="#2e7d52"/>
+      </svg>
+    </div>
+    <div class="logo-text"><span style="font-weight:500">ENTHUSIA</span> <span style="font-weight:300">CAPITAL</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="research.html" class="active">Market Research</a>
+  </div>
+</nav>
+
+<div class="report-hero" id="hero">
+  <div class="report-hero-inner" id="hero-inner">
+    <div class="tree-status"><i class="ti ti-loader-2"></i>Loading…</div>
+  </div>
+</div>
+
+<div class="company-body" id="body"></div>
+
+<footer>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
+</footer>
+
+<script src="js/research-tree.js"></script>
+<script>
+(async function () {
+  const ix = RT.qp('ix');
+  const ticker = RT.qp('t');
+  const hero = document.getElementById('hero-inner');
+  const body = document.getElementById('body');
+
+  if (!ticker) {
+    hero.innerHTML = RT.breadcrumbHTML([
+      { label: 'Market Research', href: 'research.html' },
+      { label: 'Unknown company' },
+    ]) + '<h1>Missing ticker</h1><p>Specify a ticker via <code>?t=AAPL&ix=sp500</code>.</p>';
+    return;
+  }
+
+  let data;
+  try {
+    data = await RT.loadData();
+  } catch (e) {
+    hero.innerHTML = RT.breadcrumbHTML([
+      { label: 'Market Research', href: 'research.html' },
+      { label: ticker },
+    ]) + `<h1>${RT.esc(ticker)}</h1><p>Data is being refreshed. Please check back once the monthly snapshot has been generated.</p>`;
+    return;
+  }
+
+  const c = data.companies[ticker];
+  if (!c) {
+    hero.innerHTML = RT.breadcrumbHTML([
+      { label: 'Market Research', href: 'research.html' },
+      { label: 'Not found' },
+    ]) + `<h1>${RT.esc(ticker)} not found</h1><p>This ticker is not in our latest snapshot.</p>`;
+    return;
+  }
+
+  // Determine effective index: prefer the one passed in URL, fall back to the
+  // company's first index, fall back to ungrouped.
+  const effIx = (ix && c.indices.includes(ix)) ? ix : (c.indices[0] || null);
+  const indexLabel = effIx ? RT.INDEX_NAMES[effIx] : 'Market Research';
+
+  document.getElementById('page-title').textContent = c.name + ' (' + ticker + ') — Enthusia Capital';
+
+  // Breadcrumb path
+  const sector = c.sector || 'Other';
+  const crumbs = [{ label: 'Market Research', href: 'research.html' }];
+  if (effIx) {
+    crumbs.push({ label: indexLabel, href: 'market.html?ix=' + encodeURIComponent(effIx) });
+    crumbs.push({ label: sector, href: 'market.html?ix=' + encodeURIComponent(effIx) + '&sec=' + encodeURIComponent(sector) });
+  }
+  crumbs.push({ label: c.name });
+
+  // Index membership tag(s)
+  const memberOf = c.indices.map(i => RT.INDEX_NAMES[i]).join(' · ');
+
+  // Website link (rendered into the hero info row below)
+  const websiteLink = c.website
+    ? `<a href="${RT.esc(c.website)}" target="_blank" rel="noopener">${RT.esc(c.domain || c.website)}</a>`
+    : '<em style="opacity:.6">—</em>';
+
+  hero.innerHTML = `
+    ${RT.breadcrumbHTML(crumbs)}
+    ${RT.metaHTML(indexLabel, data.lastUpdated, c.industry || '')}
+    <h1>${RT.logoHTML(c, 'co-logo')} ${RT.esc(c.name)} <span style="font-weight:400;color:#a8b4cc">(${RT.esc(ticker)})</span> <span class="co-quote" id="co-quote"></span></h1>
+    <div class="hero-info">
+      <span><strong>Sector:</strong> ${RT.esc(sector)}</span>
+      ${c.industry ? `<span><strong>Industry:</strong> ${RT.esc(c.industry)}</span>` : ''}
+      <span><strong>Index membership:</strong> ${RT.esc(memberOf || '—')}</span>
+      <span><strong>Website:</strong> ${websiteLink}</span>
+    </div>
+    <div class="hero-info hero-stats">
+      <span><strong>Market Cap:</strong> ${RT.formatMarketCap(c.marketCap)}</span>
+      <span><strong>Shares Out:</strong> ${RT.formatShares(c.sharesOutstanding)}</span>
+      <span><strong>P/E (TTM):</strong> ${RT.formatPE(c.peRatio)}</span>
+      <span><strong>52w High:</strong> ${RT.formatPrice(c.weekHigh52)}</span>
+      <span><strong>52w Low:</strong> ${RT.formatPrice(c.weekLow52)}</span>
+    </div>
+  `;
+
+  // Live quote — polls /api/quote every 15s during US market hours
+  RT.mountLiveQuote('co-quote', ticker);
+
+  // Per-ticker dynamic earnings modules (loaded only when ticker matches)
+  const EARNINGS_MODULES = {
+    AAPL:  'js/earnings-aapl.js',
+    AMZN:  'js/earnings-amzn.js',
+    APP:   'js/earnings-app.js',
+    GOOGL: 'js/earnings-googl.js',
+    META:  'js/earnings-meta.js',
+    MSFT:  'js/earnings-msft.js',
+    NVDA:  'js/earnings-nvda.js',
+    PLTR:  'js/earnings-pltr.js',
+    TSLA:  'js/earnings-tsla.js',
+    WMT:   'js/earnings-wmt.js',
+  };
+  const hasEarnings = !!EARNINGS_MODULES[ticker];
+
+  // Collapsible research sections — to be populated over time
+  const SECTIONS = [
+    { id: 'earnings',     title: 'Latest Earnings',                          icon: 'ti-report-money' },
+    { id: 'geopolitics',  title: 'Geo-political Environment',                icon: 'ti-world' },
+    { id: 'monetary',     title: 'Monetary and Trade Policies',              icon: 'ti-building-bank' },
+    { id: 'industry',     title: 'Industry Overview and Sector Implication', icon: 'ti-category' },
+    { id: 'fundamentals', title: 'Company Fundamentals',                     icon: 'ti-file-analytics' },
+    { id: 'technical',    title: 'Technical Analysis',                       icon: 'ti-chart-candle' },
+  ];
+  const sectionsHTML = SECTIONS.map(s => {
+    const isEarnings = s.id === 'earnings';
+    const slot = isEarnings && hasEarnings
+      ? '<div id="earnings-slot"></div>'
+      : '<p class="empty-note">Content coming soon.</p>';
+    // Auto-open the earnings section when content exists, for discoverability
+    const openClass = isEarnings && hasEarnings ? ' open' : '';
+    return `
+    <div class="collapsible${openClass}">
+      <button class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+        <span class="ch-left">
+          <span class="ch-icon"><i class="ti ${s.icon}"></i></span>
+          <h3>${RT.esc(s.title)}</h3>
+        </span>
+        <i class="ti ti-chevron-down ch-chev"></i>
+      </button>
+      <div class="collapsible-body">
+        ${slot}
+      </div>
+    </div>`;
+  }).join('');
+
+  body.innerHTML = `
+    <section class="business-desc">
+      ${c.description
+        ? `<p>${RT.esc(c.description)}</p>`
+        : '<p style="color:#999"><em>No description on file. The monthly refresh attempts to source descriptions from Wikipedia; this company\'s page may be unavailable or ambiguous.</em></p>'}
+    </section>
+    ${sectionsHTML}
+  `;
+
+  // Dynamically load the per-ticker earnings module, if one exists
+  if (hasEarnings) {
+    const s = document.createElement('script');
+    s.src = EARNINGS_MODULES[ticker];
+    document.body.appendChild(s);
+  }
+})();
+</script>
+<script src="ticker.js"></script>
+</body>
+</html>

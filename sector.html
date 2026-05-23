@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title id="page-title">Sector — Enthusia Capital</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="ticker-bar"><div class="ticker-track" id="ticker-track"></div></div>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-mark">
+      <svg width="63" height="40" viewBox="5 15 155 90" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 13,18.5 H 58 L 49,32.5 H 13 Q 10,32.5 10,29.5 V 21.5 Q 10,18.5 13,18.5 Z" fill="#cccccc"/>
+        <path d="M 13,49 H 42 V 63 H 13 Q 10,63 10,60 V 52 Q 10,49 13,49 Z" fill="#cccccc"/>
+        <path d="M 13,79.5 H 49 L 58,93.5 H 13 Q 10,93.5 10,90.5 V 82.5 Q 10,79.5 13,79.5 Z" fill="#cccccc"/>
+        <path d="M 111.7 30.8 A 32 32 0 1 0 111.7 81.2" fill="none" stroke="#cccccc" stroke-width="11" stroke-linecap="butt"/>
+        <polygon points="128.98,66.30 116.86,98.10 95.14,69.30" fill="#2e7d52"/>
+      </svg>
+    </div>
+    <div class="logo-text"><span style="font-weight:500">ENTHUSIA</span> <span style="font-weight:300">CAPITAL</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="research.html" class="active">Market Research</a>
+  </div>
+</nav>
+
+<div class="report-hero" id="hero">
+  <div class="report-hero-inner" id="hero-inner">
+    <div class="tree-status"><i class="ti ti-loader-2"></i>Loading…</div>
+  </div>
+</div>
+
+<div class="tree-wrap">
+  <div id="tree-content"></div>
+</div>
+
+<footer>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
+</footer>
+
+<script src="js/research-tree.js"></script>
+<script>
+(async function () {
+  const ix = RT.qp('ix');
+  const sec = RT.qp('sec');
+  const hero = document.getElementById('hero-inner');
+  const content = document.getElementById('tree-content');
+
+  if (!ix || !RT.INDEX_NAMES[ix] || !sec) {
+    hero.innerHTML = RT.breadcrumbHTML([
+      { label: 'Market Research', href: 'research.html' },
+      { label: 'Invalid path' },
+    ]) + '<h1>Invalid sector URL</h1><p>Requires <code>?ix=&lt;index&gt;&amp;sec=&lt;sector&gt;</code>.</p>';
+    return;
+  }
+
+  let data;
+  try {
+    data = await RT.loadData();
+  } catch (e) {
+    hero.innerHTML = RT.breadcrumbHTML([
+      { label: 'Market Research', href: 'research.html' },
+      { label: RT.INDEX_NAMES[ix], href: 'market.html?ix=' + encodeURIComponent(ix) },
+      { label: sec },
+    ]) + `<h1>${RT.esc(sec)}</h1><p>Data is being refreshed. Please check back once the monthly snapshot has been generated.</p>`;
+    return;
+  }
+
+  document.getElementById('page-title').textContent = sec + ' — ' + RT.INDEX_NAMES[ix] + ' — Enthusia Capital';
+
+  // Find companies in this sector × this index
+  const tickers = data.indices[ix]?.tickers || [];
+  const companies = tickers
+    .map(t => ({ ticker: t, ...data.companies[t] }))
+    .filter(c => c.name && (c.sector || 'Other') === sec)
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const sectorMeta = RT.SECTORS.find(s => s.key === sec) || { desc: '' };
+
+  // Hero
+  hero.innerHTML = `
+    ${RT.breadcrumbHTML([
+      { label: 'Market Research', href: 'research.html' },
+      { label: RT.INDEX_NAMES[ix], href: 'market.html?ix=' + encodeURIComponent(ix) },
+      { label: sec },
+    ])}
+    ${RT.metaHTML(RT.INDEX_NAMES[ix], data.lastUpdated, sec)}
+    <h1>${RT.esc(sec)}</h1>
+    <p>${RT.esc(sectorMeta.desc)} <em style="color:#7a8baa">${companies.length} ${companies.length === 1 ? 'company' : 'companies'} in ${RT.esc(RT.INDEX_NAMES[ix])}.</em></p>
+  `;
+
+  if (!companies.length) {
+    content.innerHTML = RT.statusHTML('ti-mood-empty', 'No companies in this sector for the selected index.');
+    return;
+  }
+
+  const cards = companies.map(c => `
+    <a class="co-card" href="company.html?ix=${encodeURIComponent(ix)}&t=${encodeURIComponent(c.ticker)}">
+      ${RT.logoHTML(c, 'co-thumb')}
+      <div>
+        <h4>${RT.esc(c.name)}</h4>
+        <div class="co-tic">${RT.esc(c.ticker)}</div>
+      </div>
+    </a>`).join('');
+
+  content.innerHTML = `<div class="co-grid">${cards}</div>`;
+})();
+</script>
+<script src="ticker.js"></script>
+</body>
+</html>

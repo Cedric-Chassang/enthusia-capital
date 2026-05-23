@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Services — Enthusia Capital</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="ticker-bar"><div class="ticker-track" id="ticker-track"></div></div>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-mark">
+      <svg width="63" height="40" viewBox="5 15 155 90" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 13,18.5 H 58 L 49,32.5 H 13 Q 10,32.5 10,29.5 V 21.5 Q 10,18.5 13,18.5 Z" fill="#cccccc"/>
+        <path d="M 13,49 H 42 V 63 H 13 Q 10,63 10,60 V 52 Q 10,49 13,49 Z" fill="#cccccc"/>
+        <path d="M 13,79.5 H 49 L 58,93.5 H 13 Q 10,93.5 10,90.5 V 82.5 Q 10,79.5 13,79.5 Z" fill="#cccccc"/>
+        <path d="M 111.7 30.8 A 32 32 0 1 0 111.7 81.2" fill="none" stroke="#cccccc" stroke-width="11" stroke-linecap="butt"/>
+        <polygon points="128.98,66.30 116.86,98.10 95.14,69.30" fill="#2e7d52"/>
+      </svg>
+    </div>
+    <div class="logo-text"><span style="font-weight:600">ENTHUSIA</span> <span style="font-weight:300">CAPITAL</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html" class="active">Services</a>
+    <a href="research.html">Market Research</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="section-label" style="color:var(--green2);margin-bottom:.5rem">What We Offer</div>
+  <h1>Our Services</h1>
+  <p>A full suite of research capabilities tailored to sophisticated market participants.</p>
+</div>
+
+<div style="max-width:1100px;margin:0 auto;padding:2rem 2.5rem 0">
+  <div style="background:#f4faf6;border:1.5px solid #b2d8c4;border-radius:var(--radius);overflow:hidden">
+    <button onclick="toggleDisclaimer()" style="width:100%;background:var(--navy);padding:1.1rem 1.75rem;display:flex;align-items:center;justify-content:space-between;border:none;border-bottom:3px solid var(--green);cursor:pointer;text-align:left">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="flex-shrink:0;width:36px;height:36px;background:rgba(76,175,125,.15);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <i class="ti ti-shield-check" style="font-size:20px;color:var(--green2)"></i>
+        </div>
+        <div>
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:2.5px;color:#e8693a;font-weight:600;margin-bottom:.1rem">Important Notice</p>
+          <h3 style="font-size:1.05rem;font-weight:700;color:#fff;letter-spacing:.2px">Legal Disclaimer &amp; Risk Disclosure</h3>
+        </div>
+      </div>
+      <i class="ti ti-chevron-down" id="disclaimer-chevron" style="font-size:20px;color:#a8b4cc;transition:transform .25s;flex-shrink:0"></i>
+    </button>
+    <div id="disclaimer-body" style="display:none;padding:1.75rem 2.25rem">
+      <div style="display:flex;flex-direction:column;gap:1rem;font-size:13.5px;color:#3a4a3e;line-height:1.75">
+        <div style="border-left:3px solid var(--green);padding-left:1rem">
+          <strong style="display:block;color:var(--navy);margin-bottom:.25rem">No Financial Advice</strong>
+          Enthusia Capital is a market research publisher. Its manager is not registered, licensed or certified as a financial advisor, investment advisor, portfolio manager or broker-dealer under any applicable regulatory framework. Nothing published, communicated or made available by ENTHUSIA CAPITAL — including reports, commentary, data, analysis or any other content — constitutes financial advice, investment advice, trading recommendations or an inducement to buy or sell any financial instrument or security.
+        </div>
+        <div style="border-left:3px solid var(--green);padding-left:1rem">
+          <strong style="display:block;color:var(--navy);margin-bottom:.25rem">For Informational Purposes Only</strong>
+          All content produced and distributed by ENTHUSIA CAPITAL is intended solely for general informational and educational purposes. It is provided without regard to the individual financial situation, objectives, risk tolerance or needs of any particular recipient. Recipients should not treat any content from ENTHUSIA CAPITAL as a substitute for professional financial, legal, tax or regulatory advice specific to their circumstances.
+        </div>
+        <div style="border-left:3px solid var(--green);padding-left:1rem">
+          <strong style="display:block;color:var(--navy);margin-bottom:.25rem">Investment Risks</strong>
+          Investing in financial markets involves substantial risk, including the possible loss of the entire principal amount invested. Past performance of any security, market, sector or financial instrument is not indicative of future results. The value of investments and any income derived from them may fall as well as rise. Exchange rate fluctuations, interest rate changes, geopolitical events, liquidity constraints and other market forces can materially and adversely affect the value of investments. Certain financial instruments, including derivatives, leveraged products and instruments traded on emerging or frontier markets, carry heightened and complex risks that may not be suitable for all investors.
+        </div>
+        <div style="border-left:3px solid var(--green);padding-left:1rem">
+          <strong style="display:block;color:var(--navy);margin-bottom:.25rem">Accuracy &amp; Forward-Looking Statements</strong>
+          Whilst ENTHUSIA CAPITAL endeavours to ensure that the information contained in its research is accurate and obtained from sources believed to be reliable, no representation or warranty — express or implied — is made as to its accuracy, completeness or timeliness. Research may contain forward-looking statements, projections or opinions that are inherently uncertain. Actual outcomes may differ materially from those expressed or implied.
+        </div>
+        <div style="border-left:3px solid var(--green);padding-left:1rem">
+          <strong style="display:block;color:var(--navy);margin-bottom:.25rem">Client Responsibility</strong>
+          Each client and reader bears sole and full responsibility for any investment decision they make, whether or not such decision was informed by content produced by ENTHUSIA CAPITAL. Clients are strongly encouraged to conduct their own independent due diligence and to seek the advice of a qualified and regulated financial professional before making any investment decision. ENTHUSIA CAPITAL accepts no liability whatsoever — direct, indirect, consequential or otherwise — for any loss or damage arising from reliance on its research content.
+        </div>
+        <p style="font-size:12px;color:#6a7a6e;margin-top:.5rem;padding-top:.75rem;border-top:1px solid #c8ddd0">
+          This disclaimer applies to all content, publications, communications and services provided by ENTHUSIA CAPITAL in any format and through any channel, including but not limited to written reports, digital publications, oral briefings and the ENTHUSIA CAPITAL client portal. By accessing ENTHUSIA CAPITAL content, you acknowledge that you have read, understood and agreed to this disclaimer in full.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="service-grid">
+    <div class="service-card">
+      <div class="service-card-top"><i class="ti ti-report-analytics"></i><h3>Market Research</h3></div>
+      <div class="service-card-body">
+        <p>A holistic research framework that connects the dots from the macro environment down to the individual security — global macro observation, sector dynamics, company fundamentals and technical analysis, all integrated into a single coherent view.</p>
+        <div><span class="tag">Macro Observation</span><span class="tag">Sector Analysis</span><span class="tag">Company Fundamentals</span><span class="tag">Technical Analysis</span></div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-top"><i class="ti ti-adjustments"></i><h3>On-Demand Research</h3></div>
+      <div class="service-card-body">
+        <p>Bespoke research commissioned to your specific mandate. Our analysts will scope, research and deliver a custom report within agreed timelines. Available exclusively to registered clients.</p>
+        <div><span class="tag">Custom Coverage</span><span class="tag">M&amp;A Analysis</span><span class="tag">Market Entry</span><span class="tag">Competitive Intelligence</span></div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-top"><i class="ti ti-chart-pie"></i><h3>Portfolio Evaluation</h3></div>
+      <div class="service-card-body">
+        <p>Independent assessment of an existing portfolio across concentration exposure, risk profile and alignment with the client's stated investment objectives. Delivered as a structured diagnostic report with actionable observations.</p>
+        <div><span class="tag">Concentration Analysis</span><span class="tag">Risk Profiling</span><span class="tag">Objective Alignment</span></div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-top"><i class="ti ti-globe"></i><h3>Macro &amp; Geopolitical</h3></div>
+      <div class="service-card-body">
+        <p>Structured geopolitical risk frameworks and macroeconomic scenario planning tailored to investment portfolio stress-testing and strategic allocation decisions.</p>
+        <div><span class="tag">Scenario Planning</span><span class="tag">Risk Frameworks</span><span class="tag">Allocation Views</span></div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-top"><i class="ti ti-certificate"></i><h3>Institutional Membership</h3></div>
+      <div class="service-card-body">
+        <p>Premium annual membership granting full access to all published research, the on-demand request portal, analyst calls and the historical research archive.</p>
+        <div><span class="tag">Full Archive</span><span class="tag">Analyst Calls</span><span class="tag">On-Demand Portal</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:2.5rem">
+    <div class="section-label">Engagement Process</div>
+    <h2 style="font-size:1.4rem;color:var(--navy);margin-bottom:1.25rem">How We Work</h2>
+    <div class="process">
+      <div class="process-steps">
+        <div class="step"><div class="step-num">1</div><h4>Brief</h4><p>Share your research mandate or investment question</p></div>
+        <div class="step"><div class="step-num">2</div><h4>Scope</h4><p>Our team scopes coverage, timelines and deliverables</p></div>
+        <div class="step"><div class="step-num">3</div><h4>Research</h4><p>Primary and secondary analysis by senior analysts</p></div>
+        <div class="step"><div class="step-num">4</div><h4>Deliver</h4><p>Final report, model and briefing call as needed</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
+</footer>
+
+<script>
+function toggleDisclaimer(){
+  const body=document.getElementById('disclaimer-body');
+  const chevron=document.getElementById('disclaimer-chevron');
+  const open=body.style.display==='block';
+  body.style.display=open?'none':'block';
+  chevron.style.transform=open?'rotate(0deg)':'rotate(180deg)';
+}
+</script>
+<script src="ticker.js"></script>
+</body>
+</html>

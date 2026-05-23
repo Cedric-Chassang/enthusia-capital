@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Market Research — Enthusia Capital</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div class="ticker-bar"><div class="ticker-track" id="ticker-track"></div></div>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-mark">
+      <svg width="63" height="40" viewBox="5 15 155 90" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 13,18.5 H 58 L 49,32.5 H 13 Q 10,32.5 10,29.5 V 21.5 Q 10,18.5 13,18.5 Z" fill="#cccccc"/>
+        <path d="M 13,49 H 42 V 63 H 13 Q 10,63 10,60 V 52 Q 10,49 13,49 Z" fill="#cccccc"/>
+        <path d="M 13,79.5 H 49 L 58,93.5 H 13 Q 10,93.5 10,90.5 V 82.5 Q 10,79.5 13,79.5 Z" fill="#cccccc"/>
+        <path d="M 111.7 30.8 A 32 32 0 1 0 111.7 81.2" fill="none" stroke="#cccccc" stroke-width="11" stroke-linecap="butt"/>
+        <polygon points="128.98,66.30 116.86,98.10 95.14,69.30" fill="#2e7d52"/>
+      </svg>
+    </div>
+    <div class="logo-text"><span style="font-weight:600">ENTHUSIA</span> <span style="font-weight:300">CAPITAL</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="research.html" class="active">Market Research</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="section-label" style="color:var(--green2);margin-bottom:.5rem">Knowledge Base</div>
+  <h1>Market Research</h1>
+  <p>Browse coverage by index, search reports and companies, and track upcoming earnings.</p>
+</div>
+
+<div class="research-layout">
+  <!-- LEFT: index blocks stacked -->
+  <aside class="idx-stack">
+    <div class="idx-stack-header">Browse by Index</div>
+    <a class="idx-block" href="market.html?ix=sp500">
+      <span class="ib-icon"><i class="ti ti-chart-line"></i></span>
+      <span class="ib-body">
+        <span class="ib-name">S&P 500</span>
+        <span class="ib-meta">Large-cap U.S. equity</span>
+      </span>
+      <i class="ti ti-chevron-right ib-arrow"></i>
+    </a>
+    <a class="idx-block" href="market.html?ix=nasdaq100">
+      <span class="ib-icon"><i class="ti ti-rocket"></i></span>
+      <span class="ib-body">
+        <span class="ib-name">NASDAQ 100</span>
+        <span class="ib-meta">Growth &amp; technology</span>
+      </span>
+      <i class="ti ti-chevron-right ib-arrow"></i>
+    </a>
+    <a class="idx-block" href="market.html?ix=russell2000">
+      <span class="ib-icon"><i class="ti ti-zoom-scan"></i></span>
+      <span class="ib-body">
+        <span class="ib-name">Russell 2000</span>
+        <span class="ib-meta">Small-cap U.S. equity</span>
+      </span>
+      <i class="ti ti-chevron-right ib-arrow"></i>
+    </a>
+  </aside>
+
+  <!-- RIGHT: search + calendar -->
+  <main>
+    <!-- Search -->
+    <div class="search-hero">
+      <p>Find published reports or jump to a covered company by ticker or name.</p>
+      <form class="search-form" action="search-results.html" method="get">
+        <input type="text" name="q" placeholder="e.g. AAPL, semiconductors, geopolitics, China…" autocomplete="off" required/>
+        <button type="submit"><i class="ti ti-search"></i> Search</button>
+      </form>
+    </div>
+
+    <!-- Earnings calendar -->
+    <div class="cal-wrap" id="cal-wrap">
+      <div class="cal-head">
+        <div class="cal-head-left">
+          <h2>Upcoming Earnings — Next 5 Business Days</h2>
+          <span class="cal-sub" id="cal-meta"></span>
+        </div>
+        <button class="cal-dl-btn" id="cal-dl" onclick="downloadCalendarPNG()">
+          <i class="ti ti-download"></i> Download PNG
+        </button>
+      </div>
+      <div id="cal-content">
+        <div class="cal-status"><i class="ti ti-loader-2"></i>Loading calendar…</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
+</footer>
+
+<script>
+// ─── Download the calendar block as a PNG ──────────────────────────────────
+async function downloadCalendarPNG() {
+  const target = document.getElementById('cal-wrap');
+  const btn    = document.getElementById('cal-dl');
+  if (!target || typeof html2canvas !== 'function') {
+    alert('PNG export library not loaded yet — please retry in a moment.');
+    return;
+  }
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader-2"></i> Generating…';
+  // Hide the button so it doesn't appear in the screenshot
+  btn.style.visibility = 'hidden';
+  try {
+    const canvas = await html2canvas(target, {
+      scale: 2,
+      backgroundColor: '#ffffff',
+      useCORS: true,
+      logging: false,
+    });
+    const a = document.createElement('a');
+    const today = new Date().toISOString().slice(0, 10);
+    a.download = `enthusia-earnings-calendar-${today}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  } catch (e) {
+    console.warn('PNG download failed:', e);
+    alert('Could not generate PNG: ' + (e?.message || e));
+  } finally {
+    btn.style.visibility = 'visible';
+    btn.innerHTML = originalHTML;
+    btn.disabled = false;
+  }
+}
+
+// ─── Earnings calendar renderer ─────────────────────────────────────────────
+(async function () {
+  const content  = document.getElementById('cal-content');
+  const metaSpan = document.getElementById('cal-meta');
+
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function firstInitial(s) {
+    const m = (s || '').match(/[A-Za-z0-9]/);
+    return m ? m[0].toUpperCase() : '·';
+  }
+  function logoCell(t) {
+    if (t.logo) {
+      // Route through our same-origin proxy so html2canvas can include the
+      // image in PNG exports (Finnhub's CDN doesn't send CORS headers).
+      const fb = `'<span class=\\\\'cal-mono\\\\'>${esc(firstInitial(t.symbol))}</span>'`;
+      return `<img src="/api/logo?ticker=${encodeURIComponent(t.symbol)}" alt="" onerror="this.outerHTML=${fb}">`;
+    }
+    return `<span class="cal-mono">${esc(firstInitial(t.symbol))}</span>`;
+  }
+
+  // Get the next 5 business days starting today (skip weekends).
+  // For TODAY only, skip BMO bucket if we're past 09:30 ET.
+  function nextBusinessDays(n) {
+    const out = [];
+    const d = new Date(); d.setHours(0,0,0,0);
+    while (out.length < n) {
+      const dow = d.getDay();
+      if (dow !== 0 && dow !== 6) out.push(new Date(d));
+      d.setDate(d.getDate() + 1);
+    }
+    return out;
+  }
+  function isPastUSMarketOpen() {
+    // 09:30 America/New_York. Approximate via UTC offset (-4 EDT / -5 EST).
+    // Use Intl formatter to get the current hour in NY.
+    try {
+      const fmt = new Intl.DateTimeFormat('en-US', { timeZone:'America/New_York', hour:'2-digit', minute:'2-digit', hour12:false });
+      const parts = Object.fromEntries(fmt.formatToParts(new Date()).filter(p => p.type === 'hour' || p.type === 'minute').map(p => [p.type, parseInt(p.value, 10)]));
+      const mins = parts.hour * 60 + parts.minute;
+      return mins >= 9 * 60 + 30;
+    } catch (_) { return false; }
+  }
+  const pad = n => String(n).padStart(2, '0');
+  const dateKey = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const dayLabels = { 0:'Sun', 1:'Mon', 2:'Tue', 3:'Wed', 4:'Thu', 5:'Fri', 6:'Sat' };
+
+  try {
+    const r = await fetch('/api/calendar');
+    if (!r.ok) throw new Error('calendar-' + r.status);
+    const cal = await r.json();
+
+    // Group events by date+bucket
+    const byDate = {};
+    for (const e of cal.events || []) {
+      (byDate[e.date] ||= { bmo: [], amc: [], other: [] });
+      const bucket = (e.hour || '').toLowerCase();
+      if (bucket === 'bmo') byDate[e.date].bmo.push(e);
+      else if (bucket === 'amc') byDate[e.date].amc.push(e);
+      else byDate[e.date].other.push(e);
+    }
+
+    const days = nextBusinessDays(5);
+    const todayKey = dateKey(new Date());
+    const skipTodayBMO = isPastUSMarketOpen();
+
+    const renderBucket = (label, icon, list) => {
+      if (!list.length) return `<div class="cal-bucket"><div class="cal-bucket-label"><i class="ti ${icon}"></i>${label}</div><div class="cal-empty">—</div></div>`;
+      const ticks = list.slice().sort((a, b) => a.symbol.localeCompare(b.symbol)).map(t => `
+        <a class="cal-tick" href="company.html?ix=sp500&t=${encodeURIComponent(t.symbol)}" title="${esc(t.name)}">
+          ${logoCell(t)}<span>${esc(t.symbol)}</span>
+        </a>`).join('');
+      return `<div class="cal-bucket"><div class="cal-bucket-label"><i class="ti ${icon}"></i>${label}</div><div class="cal-tick-grid">${ticks}</div></div>`;
+    };
+
+    const html = days.map(d => {
+      const key = dateKey(d);
+      const isToday = key === todayKey;
+      const data = byDate[key] || { bmo: [], amc: [], other: [] };
+      const bmoList = (isToday && skipTodayBMO) ? [] : data.bmo;
+      // Move 'other' into AMC bucket (so anything tagged "during market hours" still shows)
+      const amcList = [...data.amc, ...data.other];
+      return `
+        <div class="cal-day">
+          <div class="cal-day-head"><span class="cal-dow">${dayLabels[d.getDay()]}</span>${d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}${isToday ? ' · today' : ''}</div>
+          ${renderBucket('Before Open', 'ti-sunrise', bmoList)}
+          ${renderBucket('After Close', 'ti-moon', amcList)}
+        </div>`;
+    }).join('');
+
+    content.innerHTML = `<div class="cal-grid">${html}</div>`;
+    if (cal.lastUpdated) {
+      const d = new Date(cal.lastUpdated);
+      metaSpan.textContent = 'Refreshed ' + d.toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+    }
+  } catch (e) {
+    console.warn('Calendar fetch failed:', e);
+    content.innerHTML = `<div class="cal-status"><i class="ti ti-alert-circle"></i>Calendar unavailable. ${esc(String(e?.message || e))}</div>`;
+  }
+})();
+</script>
+<script src="ticker.js"></script>
+</body>
+</html>

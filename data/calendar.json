@@ -1,0 +1,119 @@
+{
+  "lastUpdated": "2026-05-22T10:26:07.445Z",
+  "from": "2026-05-22",
+  "to": "2026-06-01",
+  "events": [
+    {
+      "symbol": "HPE",
+      "date": "2026-06-01",
+      "hour": "amc",
+      "name": "Hewlett Packard Enterprise Co",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/HPE.png"
+    },
+    {
+      "symbol": "DLTR",
+      "date": "2026-05-28",
+      "hour": "bmo",
+      "name": "Dollar Tree Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/DLTR.png"
+    },
+    {
+      "symbol": "DELL",
+      "date": "2026-05-28",
+      "hour": "amc",
+      "name": "Dell Technologies Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/DELL.png"
+    },
+    {
+      "symbol": "ADSK",
+      "date": "2026-05-28",
+      "hour": "amc",
+      "name": "Autodesk Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ADSK.png"
+    },
+    {
+      "symbol": "HRL",
+      "date": "2026-05-28",
+      "hour": "bmo",
+      "name": "Hormel Foods Corp",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/HRL.png"
+    },
+    {
+      "symbol": "COST",
+      "date": "2026-05-28",
+      "hour": "amc",
+      "name": "Costco Wholesale Corp",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/COST.png"
+    },
+    {
+      "symbol": "NTAP",
+      "date": "2026-05-28",
+      "hour": "amc",
+      "name": "NetApp Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/NTAP.png"
+    },
+    {
+      "symbol": "BBY",
+      "date": "2026-05-27",
+      "hour": "",
+      "name": "Best Buy Co Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/BBY.png"
+    },
+    {
+      "symbol": "SNPS",
+      "date": "2026-05-27",
+      "hour": "amc",
+      "name": "Synopsys Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/SNPS.png"
+    },
+    {
+      "symbol": "MRVL",
+      "date": "2026-05-27",
+      "hour": "amc",
+      "name": "Marvell Technology Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MRVL.png"
+    },
+    {
+      "symbol": "CRM",
+      "date": "2026-05-27",
+      "hour": "amc",
+      "name": "Salesforce Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/CRM.png"
+    },
+    {
+      "symbol": "HPQ",
+      "date": "2026-05-27",
+      "hour": "amc",
+      "name": "HP Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/HPQ.png"
+    },
+    {
+      "symbol": "A",
+      "date": "2026-05-27",
+      "hour": "amc",
+      "name": "Agilent Technologies Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/A.png"
+    },
+    {
+      "symbol": "AZO",
+      "date": "2026-05-26",
+      "hour": "bmo",
+      "name": "Autozone Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/AZO.png"
+    },
+    {
+      "symbol": "ZS",
+      "date": "2026-05-26",
+      "hour": "amc",
+      "name": "Zscaler Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/ZS.png"
+    },
+    {
+      "symbol": "PDD",
+      "date": "2026-05-25",
+      "hour": "bmo",
+      "name": "PDD Holdings Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/PDD.png"
+    }
+  ]
+}

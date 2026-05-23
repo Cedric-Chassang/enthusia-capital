@@ -1,0 +1,19 @@
+# Secrets
+.env
+.env.*
+!.env.example
+# Local dev
+.venv/
+node_modules/
+.claude/
+# One-off prove-out scripts
+scripts/_fetch_*.py
+scripts/_parse_*.py
+scripts/_test_*.py
+# Generated state files
+scripts/refresh-progress.json
+scripts/*.log
+data/staging/
+# OS junk
+.DS_Store
+Thumbs.db

@@ -1,0 +1,15 @@
+{
+  "lastUpdated": "2026-05-22T16:00:00Z",
+  "items": [
+    { "ticker": "AAPL",  "name": "Apple Inc",            "period": "Q2 FY2026", "reportDate": "2026-04-30", "reportTime": "amc", "generatedAt": "2026-05-09T00:00:00Z", "source": "manual", "modulePath": "js/earnings-aapl.js" },
+    { "ticker": "AMZN",  "name": "Amazon.com Inc",       "period": "Q1 2026",   "reportDate": "2026-04-29", "reportTime": "amc", "generatedAt": "2026-05-09T00:00:00Z", "source": "manual", "modulePath": "js/earnings-amzn.js" },
+    { "ticker": "APP",   "name": "Applovin Corp",        "period": "Q1 2026",   "reportDate": "2026-05-06", "reportTime": "amc", "generatedAt": "2026-05-22T16:30:00Z", "source": "auto",   "modulePath": "js/earnings-app.js" },
+    { "ticker": "GOOGL", "name": "Alphabet Inc",         "period": "Q1 2026",   "reportDate": "2026-04-29", "reportTime": "amc", "generatedAt": "2026-05-09T00:00:00Z", "source": "manual", "modulePath": "js/earnings-googl.js" },
+    { "ticker": "META",  "name": "Meta Platforms Inc",   "period": "Q1 2026",   "reportDate": "2026-04-29", "reportTime": "amc", "generatedAt": "2026-05-09T00:00:00Z", "source": "manual", "modulePath": "js/earnings-meta.js" },
+    { "ticker": "MSFT",  "name": "Microsoft Corp",       "period": "Q3 FY26",   "reportDate": "2026-04-29", "reportTime": "amc", "generatedAt": "2026-05-09T00:00:00Z", "source": "manual", "modulePath": "js/earnings-msft.js" },
+    { "ticker": "NVDA",  "name": "NVIDIA Corp",          "period": "Q1 FY27",   "reportDate": "2026-05-21", "reportTime": "amc", "generatedAt": "2026-05-21T00:00:00Z", "source": "manual", "modulePath": "js/earnings-nvda.js" },
+    { "ticker": "PLTR",  "name": "Palantir Technologies","period": "Q1 2026",   "reportDate": "2026-05-05", "reportTime": "amc", "generatedAt": "2026-05-09T00:00:00Z", "source": "manual", "modulePath": "js/earnings-pltr.js" },
+    { "ticker": "TSLA",  "name": "Tesla Inc",            "period": "Q1 2026",   "reportDate": "2026-04-22", "reportTime": "amc", "generatedAt": "2026-05-09T00:00:00Z", "source": "manual", "modulePath": "js/earnings-tsla.js" },
+    { "ticker": "WMT",   "name": "Walmart Inc",          "period": "Q1 FY27",   "reportDate": "2026-05-21", "reportTime": "bmo", "generatedAt": "2026-05-22T15:00:00Z", "source": "auto",   "modulePath": "js/earnings-wmt.js" }
+  ]
+}

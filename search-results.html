@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Search Results — Enthusia Capital</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+  .sr-wrap{max-width:1100px;margin:2rem auto 3rem;padding:0 1.5rem}
+  .sr-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);border-radius:var(--radius);padding:1.5rem 1.75rem;color:#fff;margin-bottom:1.75rem;box-shadow:0 4px 14px rgba(15,23,42,.08)}
+  .sr-hero .sr-crumb{font-size:12px;color:#a8b4cc;margin-bottom:.5rem}
+  .sr-hero .sr-crumb a{color:#a8b4cc;text-decoration:none}
+  .sr-hero .sr-crumb a:hover{color:var(--green2)}
+  .sr-hero h1{font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:.6rem}
+  .sr-hero h1 em{color:var(--green2);font-style:normal}
+  .sr-form{display:flex;gap:8px;max-width:600px}
+  .sr-form input{flex:1;background:rgba(255,255,255,.96);border:none;border-radius:8px;padding:.7rem 1rem;font-size:14px;font-family:inherit;color:var(--text);outline:none}
+  .sr-form input:focus{box-shadow:0 0 0 3px rgba(76,175,125,.35)}
+  .sr-form button{background:var(--green);color:#fff;border:none;border-radius:8px;padding:0 1.2rem;font-size:14px;font-weight:600}
+  .sr-form button:hover{background:var(--green2)}
+  .sr-section{margin-bottom:2rem}
+  .sr-section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+  .sr-section-head h2{font-size:13px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.7px}
+  .sr-section-head .sr-count{font-size:12px;color:var(--muted);font-weight:500}
+  .sr-empty{padding:2rem 1rem;text-align:center;color:var(--muted);font-size:13px}
+  .sr-empty i{display:block;font-size:36px;margin-bottom:.5rem;color:#cbd5e1}
+</style>
+</head>
+<body>
+
+<div class="ticker-bar"><div class="ticker-track" id="ticker-track"></div></div>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-mark">
+      <svg width="63" height="40" viewBox="5 15 155 90" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 13,18.5 H 58 L 49,32.5 H 13 Q 10,32.5 10,29.5 V 21.5 Q 10,18.5 13,18.5 Z" fill="#cccccc"/>
+        <path d="M 13,49 H 42 V 63 H 13 Q 10,63 10,60 V 52 Q 10,49 13,49 Z" fill="#cccccc"/>
+        <path d="M 13,79.5 H 49 L 58,93.5 H 13 Q 10,93.5 10,90.5 V 82.5 Q 10,79.5 13,79.5 Z" fill="#cccccc"/>
+        <path d="M 111.7 30.8 A 32 32 0 1 0 111.7 81.2" fill="none" stroke="#cccccc" stroke-width="11" stroke-linecap="butt"/>
+        <polygon points="128.98,66.30 116.86,98.10 95.14,69.30" fill="#2e7d52"/>
+      </svg>
+    </div>
+    <div class="logo-text"><span style="font-weight:600">ENTHUSIA</span> <span style="font-weight:300">CAPITAL</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="research.html" class="active">Market Research</a>
+  </div>
+</nav>
+
+<div class="sr-wrap">
+  <div class="sr-hero">
+    <div class="sr-crumb"><a href="research.html">Market Research</a> &nbsp;›&nbsp; Search results</div>
+    <h1 id="sr-title">Search results</h1>
+    <form class="sr-form" action="search-results.html" method="get">
+      <input type="text" name="q" id="sr-input" placeholder="Search reports or companies…" autocomplete="off" required/>
+      <button type="submit"><i class="ti ti-search"></i> Search</button>
+    </form>
+  </div>
+
+  <div class="sr-section">
+    <div class="sr-section-head">
+      <h2>Reports</h2>
+      <span class="sr-count" id="rep-count"></span>
+    </div>
+    <div class="research-list" id="rep-list"></div>
+    <div class="sr-empty" id="rep-empty" style="display:none"><i class="ti ti-file-search"></i>No matching reports.</div>
+  </div>
+
+  <div class="sr-section">
+    <div class="sr-section-head">
+      <h2>Companies</h2>
+      <span class="sr-count" id="co-count"></span>
+    </div>
+    <div class="co-grid" id="co-list"></div>
+    <div class="sr-empty" id="co-empty" style="display:none"><i class="ti ti-building-off"></i>No matching companies.</div>
+  </div>
+
+  <div class="sr-empty" id="sr-noresults" style="display:none">
+    <i class="ti ti-mood-empty"></i>
+    No results for your query. Try a different keyword or jump back to <a href="research.html" style="color:var(--green);font-weight:600">Market Research</a>.
+  </div>
+</div>
+
+<footer>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
+</footer>
+
+<script>
+(async function () {
+  const params = new URLSearchParams(location.search);
+  const q = (params.get('q') || '').trim();
+
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function firstInitial(s) { const m=(s||'').match(/[A-Za-z0-9]/); return m?m[0].toUpperCase():'·'; }
+
+  const titleEl = document.getElementById('sr-title');
+  const inputEl = document.getElementById('sr-input');
+  if (q) {
+    titleEl.innerHTML = `Search results for <em>${esc(q)}</em>`;
+    inputEl.value = q;
+    document.title = 'Search: ' + q + ' — Enthusia Capital';
+  } else {
+    titleEl.textContent = 'Search';
+  }
+
+  const repList  = document.getElementById('rep-list');
+  const repCount = document.getElementById('rep-count');
+  const repEmpty = document.getElementById('rep-empty');
+  const coList   = document.getElementById('co-list');
+  const coCount  = document.getElementById('co-count');
+  const coEmpty  = document.getElementById('co-empty');
+  const noResults = document.getElementById('sr-noresults');
+
+  if (!q) {
+    repList.style.display = 'none';
+    coList.style.display = 'none';
+    noResults.style.display = 'block';
+    noResults.innerHTML = '<i class="ti ti-search"></i>Enter a query above to search reports and companies.';
+    return;
+  }
+
+  const ql = q.toLowerCase();
+
+  // ── Reports ──────────────────────────────────────────────────────────────
+  let reports = [];
+  try {
+    const r = await fetch('data/reports.json');
+    if (r.ok) reports = await r.json();
+  } catch (_) {}
+  const reportHits = reports.filter(r =>
+    r.title.toLowerCase().includes(ql) ||
+    r.summary.toLowerCase().includes(ql) ||
+    r.category.toLowerCase().includes(ql) ||
+    r.author.toLowerCase().includes(ql)
+  ).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  if (reportHits.length === 0) {
+    repList.style.display = 'none';
+    repEmpty.style.display = 'block';
+  } else {
+    repCount.textContent = reportHits.length + ' result' + (reportHits.length === 1 ? '' : 's');
+    repList.innerHTML = reportHits.map(r => {
+      const d = new Date(r.date).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+      const interactive = r.link ? `<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--green);background:#e8f5ee;padding:2px 9px;border-radius:20px;margin-left:6px"><i class="ti ti-chart-sankey" style="font-size:12px"></i> Interactive</span>` : '';
+      const clickAttr = r.link ? `onclick="window.location.href='${esc(r.link)}'" style="cursor:pointer"` : '';
+      return `<div class="research-item" ${clickAttr}>
+        <div class="ri-icon"><i class="ti ti-${r.link ? 'chart-sankey' : 'file-text'}"></i></div>
+        <div class="ri-body">
+          <div class="ri-meta"><span class="ri-category">${esc(r.category)}</span><span class="ri-date">${d} · ${esc(r.author)}</span>${interactive}</div>
+          <h3>${esc(r.title)}</h3><p>${esc(r.summary)}</p>
+        </div>
+        <div class="ri-access"></div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Companies ────────────────────────────────────────────────────────────
+  let companies = { companies: {}, indices: {} };
+  try {
+    const r = await fetch('data/companies.json');
+    if (r.ok) companies = await r.json();
+  } catch (_) {}
+
+  const coEntries = Object.entries(companies.companies || {});
+  const coHits = coEntries
+    .filter(([ticker, c]) =>
+      ticker.toLowerCase().includes(ql) ||
+      (c.name || '').toLowerCase().includes(ql) ||
+      (c.sector || '').toLowerCase().includes(ql) ||
+      (c.industry || '').toLowerCase().includes(ql)
+    )
+    .sort(([ta, a], [tb, b]) => {
+      // Exact ticker match first, then exact name match, then alphabetical
+      if (ta.toLowerCase() === ql) return -1;
+      if (tb.toLowerCase() === ql) return 1;
+      const an = (a.name || '').toLowerCase();
+      const bn = (b.name || '').toLowerCase();
+      if (an === ql) return -1;
+      if (bn === ql) return 1;
+      return an.localeCompare(bn);
+    })
+    .slice(0, 60);   // cap at 60 so a "tech" search doesn't dump 200 rows
+
+  if (coHits.length === 0) {
+    coList.style.display = 'none';
+    coEmpty.style.display = 'block';
+  } else {
+    coCount.textContent = coHits.length + ' result' + (coHits.length === 1 ? '' : 's') + (coEntries.length > 60 && coHits.length === 60 ? ' (showing top 60)' : '');
+    coList.innerHTML = coHits.map(([ticker, c]) => {
+      // Pick a destination index — prefer S&P 500, else NASDAQ 100, else Russell 2000, else sp500 as fallback
+      const ix = (c.indices && c.indices[0]) || 'sp500';
+      const initial = firstInitial(c.name || ticker);
+      const fb = `'<span class=\\\\'co-mono\\\\'>${esc(initial)}</span>'`;
+      const logoHTML = c.logo
+        ? `<img class="co-thumb" src="${esc(c.logo)}" alt="" onerror="this.outerHTML=${fb}">`
+        : `<span class="co-mono">${esc(initial)}</span>`;
+      return `<a class="co-card" href="company.html?ix=${encodeURIComponent(ix)}&t=${encodeURIComponent(ticker)}">
+        ${logoHTML}
+        <div>
+          <h4>${esc(c.name || ticker)}</h4>
+          <div class="co-tic">${esc(ticker)}</div>
+        </div>
+      </a>`;
+    }).join('');
+  }
+
+  if (reportHits.length === 0 && coHits.length === 0) {
+    noResults.style.display = 'block';
+  }
+})();
+</script>
+<script src="ticker.js"></script>
+</body>
+</html>

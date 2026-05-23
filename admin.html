@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Admin — Enthusia Capital</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.admin-wrap{max-width:1100px;margin:2.5rem auto;padding:0 2rem}
+.admin-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.admin-header h1{font-size:1.6rem;margin:0;color:#0f172a}
+.admin-header .badge{display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .65rem;border-radius:999px;background:#fef3c7;color:#92400e;font-size:12px;font-weight:600;border:1px solid #fde68a}
+.admin-note{background:#f1f5f9;border-left:3px solid #2563a8;padding:.85rem 1.05rem;border-radius:0 6px 6px 0;color:#334155;font-size:13px;margin-bottom:1.25rem;line-height:1.55}
+.admin-toolbar{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.75rem 1rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px 8px 0 0;border-bottom:none;font-size:13px}
+.admin-toolbar .left{display:flex;align-items:center;gap:.85rem;flex:1}
+.admin-toolbar .right{display:flex;align-items:center;gap:.6rem}
+.admin-toolbar .count{color:#64748b}
+.btn-danger{background:#dc2626;color:#fff;border:none;padding:.5rem 1rem;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;transition:.15s}
+.btn-danger:hover{background:#b91c1c}
+.btn-danger:disabled{opacity:.45;cursor:not-allowed}
+.btn-ghost{background:#fff;color:#334155;border:1px solid #cbd5e1;padding:.5rem .85rem;border-radius:6px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;transition:.15s}
+.btn-ghost:hover{background:#f1f5f9}
+.pending-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e2e8f0;border-radius:0 0 8px 8px;font-size:14px;overflow:hidden}
+.pending-table th,.pending-table td{padding:.7rem .9rem;text-align:left;border-bottom:1px solid #f1f5f9}
+.pending-table th{background:#f8fafc;font-weight:600;font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:.5px}
+.pending-table tbody tr:hover{background:#fafbfd}
+.pending-table tbody tr:last-child td{border-bottom:none}
+.pending-table td.col-check{width:36px}
+.pending-table td.col-ticker{font-weight:600;color:#0f172a;font-family:ui-monospace,monospace;width:80px}
+.pending-table td.col-period{color:#475569;width:120px}
+.pending-table td.col-date{color:#64748b;font-size:12px;width:140px}
+.pending-table td.col-source{width:90px}
+.source-pill{display:inline-block;padding:.15rem .55rem;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase}
+.source-pill.auto{background:#dbeafe;color:#1d4ed8}
+.source-pill.manual{background:#e2e8f0;color:#475569}
+.time-pill{display:inline-block;padding:.1rem .5rem;border-radius:4px;font-size:10.5px;font-weight:600;letter-spacing:.4px;margin-left:.4rem;vertical-align:1px}
+.time-pill.bmo{background:#dcfce7;color:#166534}
+.time-pill.amc{background:#fef3c7;color:#92400e}
+.time-pill.dmh{background:#ede9fe;color:#6d28d9}
+.pending-table td.col-release{color:#475569;font-size:13px;width:170px;white-space:nowrap}
+.pending-table .col-action a{color:#2563a8;text-decoration:none;font-weight:500;font-size:13px}
+.pending-table .col-action a:hover{text-decoration:underline}
+.pending-table a.company-link{color:#0f172a;text-decoration:none}
+.pending-table a.company-link:hover{color:#2563a8;text-decoration:underline}
+.empty-state{padding:2.5rem;text-align:center;color:#64748b;background:#fff;border:1px solid #e2e8f0;border-radius:0 0 8px 8px;border-top:none}
+.empty-state i{font-size:32px;color:#16a34a;margin-bottom:.5rem;display:block}
+.flash{padding:.7rem 1rem;border-radius:6px;margin-bottom:1rem;font-size:13px;display:none}
+.flash.success{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.flash.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+input[type="checkbox"]{cursor:pointer;width:16px;height:16px;accent-color:#2563a8}
+.login-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000}
+.login-card{background:#fff;border-radius:10px;padding:1.75rem 2rem;width:min(380px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.login-card h2{margin:0 0 .25rem;font-size:1.25rem;color:#0f172a;display:flex;align-items:center;gap:.5rem}
+.login-card .sub{color:#64748b;font-size:13px;margin-bottom:1.25rem}
+.login-card label{display:block;font-size:12px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin:.85rem 0 .3rem}
+.login-card input[type="text"],.login-card input[type="password"]{width:100%;padding:.55rem .7rem;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;font-family:inherit;box-sizing:border-box}
+.login-card input:focus{outline:none;border-color:#2563a8;box-shadow:0 0 0 3px rgba(37,99,168,.15)}
+.login-card button{margin-top:1.25rem;width:100%;background:#2563a8;color:#fff;border:none;padding:.65rem;border-radius:6px;font-weight:600;cursor:pointer;font-size:14px}
+.login-card button:hover{background:#1e4f87}
+.login-err{color:#dc2626;font-size:12px;margin-top:.5rem;min-height:1em}
+</style>
+</head>
+<body>
+
+<div class="ticker-bar"><div class="ticker-track" id="ticker-track"></div></div>
+
+<nav>
+  <a class="logo" href="index.html">
+    <div class="logo-mark">
+      <svg width="63" height="40" viewBox="5 15 155 90" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 13,18.5 H 58 L 49,32.5 H 13 Q 10,32.5 10,29.5 V 21.5 Q 10,18.5 13,18.5 Z" fill="#cccccc"/>
+        <path d="M 13,49 H 42 V 63 H 13 Q 10,63 10,60 V 52 Q 10,49 13,49 Z" fill="#cccccc"/>
+        <path d="M 13,79.5 H 49 L 58,93.5 H 13 Q 10,93.5 10,90.5 V 82.5 Q 10,79.5 13,79.5 Z" fill="#cccccc"/>
+        <path d="M 111.7 30.8 A 32 32 0 1 0 111.7 81.2" fill="none" stroke="#cccccc" stroke-width="11" stroke-linecap="butt"/>
+        <polygon points="128.98,66.30 116.86,98.10 95.14,69.30" fill="#2e7d52"/>
+      </svg>
+    </div>
+    <div class="logo-text"><span style="font-weight:600">ENTHUSIA</span> <span style="font-weight:300">CAPITAL</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="research.html">Market Research</a>
+  </div>
+</nav>
+
+<div class="login-overlay" id="login-overlay" style="display:none">
+  <form class="login-card" id="login-form" autocomplete="off">
+    <h2><i class="ti ti-shield-lock" style="color:#2563a8"></i> Admin sign-in</h2>
+    <div class="sub">Enthusia Capital admin area — credentials required.</div>
+    <label for="login-user">Username</label>
+    <input type="text" id="login-user" autocomplete="username" required/>
+    <label for="login-pass">Password</label>
+    <input type="password" id="login-pass" autocomplete="current-password" required/>
+    <div class="login-err" id="login-err"></div>
+    <button type="submit">Sign in</button>
+  </form>
+</div>
+
+<div class="admin-wrap">
+
+  <div class="admin-header">
+    <div>
+      <h1><i class="ti ti-shield-lock" style="vertical-align:-2px;color:#2563a8"></i> Pending Review</h1>
+      <div style="font-size:13px;color:#64748b;margin-top:.25rem">Earnings-sankey modules awaiting admin spot-check</div>
+    </div>
+    <span class="badge" id="count-badge"><i class="ti ti-bell"></i> <span id="count-num">—</span> awaiting review</span>
+  </div>
+
+  <div class="admin-note">
+    <i class="ti ti-info-circle" style="vertical-align:-2px;margin-right:.25rem"></i>
+    Items below are <strong>live on the site</strong>. This queue is a notification only — removing an item here does <em>not</em> delete the chart, it just marks it as reviewed.
+    Auto-generated charts (blue tag) are produced by <code>scripts/generate-sankey.py</code> after a covered company reports earnings; check them for segment-extraction accuracy.
+  </div>
+
+  <div id="flash" class="flash"></div>
+
+  <div class="admin-toolbar">
+    <div class="left">
+      <label style="display:inline-flex;align-items:center;gap:.5rem;cursor:pointer">
+        <input type="checkbox" id="select-all"/>
+        <span>Select all</span>
+      </label>
+      <span class="count" id="selected-count">0 selected</span>
+    </div>
+    <div class="right">
+      <button class="btn-ghost" id="refresh-btn"><i class="ti ti-refresh"></i> Refresh</button>
+      <button class="btn-danger" id="remove-btn" disabled><i class="ti ti-trash"></i> Remove selected</button>
+    </div>
+  </div>
+
+  <div id="table-container">
+    <table class="pending-table">
+      <thead>
+        <tr>
+          <th class="col-check"></th>
+          <th>Ticker</th>
+          <th>Company</th>
+          <th>Period</th>
+          <th>Released</th>
+          <th>Generated</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="pending-tbody">
+        <tr><td colspan="7" style="text-align:center;padding:2rem;color:#64748b"><i class="ti ti-loader-2"></i> Loading…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved.</span>
+</footer>
+
+<script src="ticker.js"></script>
+<script>
+(function () {
+  const tbody = document.getElementById('pending-tbody');
+  const selectAll = document.getElementById('select-all');
+  const removeBtn = document.getElementById('remove-btn');
+  const refreshBtn = document.getElementById('refresh-btn');
+  const countNum = document.getElementById('count-num');
+  const selCount = document.getElementById('selected-count');
+  const flash = document.getElementById('flash');
+  const overlay = document.getElementById('login-overlay');
+  const loginForm = document.getElementById('login-form');
+  const loginUser = document.getElementById('login-user');
+  const loginPass = document.getElementById('login-pass');
+  const loginErr  = document.getElementById('login-err');
+
+  const AUTH_KEY = 'enthusia-admin-auth-v1';
+  function getAuthHeader() { return sessionStorage.getItem(AUTH_KEY) || ''; }
+  function setAuthHeader(h) { sessionStorage.setItem(AUTH_KEY, h); }
+  function clearAuthHeader() { sessionStorage.removeItem(AUTH_KEY); }
+  function authFetch(url, opts) {
+    const headers = Object.assign({}, (opts && opts.headers) || {});
+    const a = getAuthHeader();
+    if (a) headers['Authorization'] = a;
+    return fetch(url, Object.assign({}, opts || {}, { headers }));
+  }
+
+  function showLogin(msg) {
+    overlay.style.display = 'flex';
+    loginErr.textContent = msg || '';
+    setTimeout(() => loginUser.focus(), 50);
+  }
+  function hideLogin() {
+    overlay.style.display = 'none';
+    loginErr.textContent = '';
+    loginPass.value = '';
+  }
+
+  loginForm.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    loginErr.textContent = '';
+    const u = loginUser.value.trim();
+    const p = loginPass.value;
+    if (!u || !p) { loginErr.textContent = 'Enter both fields.'; return; }
+    const header = 'Basic ' + btoa(u + ':' + p);
+    try {
+      const r = await fetch('/api/admin/pending', { headers: { Authorization: header } });
+      if (r.status === 401) { loginErr.textContent = 'Invalid credentials.'; return; }
+      if (!r.ok) { loginErr.textContent = 'Server error (' + r.status + ').'; return; }
+      setAuthHeader(header);
+      hideLogin();
+      const data = await r.json();
+      render(data.items || []);
+    } catch (e) {
+      loginErr.textContent = 'Network error: ' + e.message;
+    }
+  });
+
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  }
+
+  // Render the report date + time-of-day pill (bmo / amc / dmh)
+  function fmtRelease(item) {
+    const date = item.reportDate
+      ? new Date(item.reportDate + 'T12:00:00Z').toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })
+      : '—';
+    const t = (item.reportTime || '').toLowerCase();
+    const LABELS = { bmo: 'BMO', amc: 'AMC', dmh: 'DMH' };
+    const TITLES = {
+      bmo: 'Before market open',
+      amc: 'After market close',
+      dmh: 'During market hours',
+    };
+    if (!LABELS[t]) return esc(date);
+    return esc(date) + ` <span class="time-pill ${t}" title="${esc(TITLES[t])}">${LABELS[t]}</span>`;
+  }
+
+  function showFlash(msg, kind) {
+    flash.className = 'flash ' + kind;
+    flash.textContent = msg;
+    flash.style.display = 'block';
+    setTimeout(() => { flash.style.display = 'none'; }, 4000);
+  }
+
+  function updateCounts() {
+    const boxes = tbody.querySelectorAll('input[type=checkbox]');
+    const checked = tbody.querySelectorAll('input[type=checkbox]:checked').length;
+    selCount.textContent = checked + ' selected';
+    removeBtn.disabled = checked === 0;
+    // master checkbox tri-state
+    if (boxes.length === 0) {
+      selectAll.checked = false; selectAll.indeterminate = false;
+    } else if (checked === 0) {
+      selectAll.checked = false; selectAll.indeterminate = false;
+    } else if (checked === boxes.length) {
+      selectAll.checked = true; selectAll.indeterminate = false;
+    } else {
+      selectAll.checked = false; selectAll.indeterminate = true;
+    }
+  }
+
+  function render(items) {
+    countNum.textContent = items.length;
+    if (!items.length) {
+      tbody.innerHTML = `<tr><td colspan="7" class="empty-state-row"><div class="empty-state">
+        <i class="ti ti-circle-check"></i><strong>All caught up.</strong><br/>
+        <span style="font-size:13px">No charts awaiting review.</span>
+      </div></td></tr>`;
+      updateCounts();
+      return;
+    }
+    tbody.innerHTML = items.map(it => {
+      const ticker = esc(it.ticker);
+      const chartUrl = 'company.html?t=' + encodeURIComponent(ticker);
+      return `<tr>
+        <td class="col-check"><input type="checkbox" data-ticker="${ticker}"/></td>
+        <td class="col-ticker">${ticker}</td>
+        <td><a class="company-link" href="${esc(chartUrl)}" target="_blank">${esc(it.name || ticker)}</a></td>
+        <td class="col-period">${esc(it.period || '')}</td>
+        <td class="col-release">${fmtRelease(it)}</td>
+        <td class="col-date">${esc(fmtDate(it.generatedAt))}</td>
+        <td class="col-source"><span class="source-pill ${esc(it.source || 'manual')}">${esc((it.source || 'manual').toUpperCase())}</span></td>
+      </tr>`;
+    }).join('');
+    tbody.querySelectorAll('input[type=checkbox]').forEach(cb => {
+      cb.addEventListener('change', updateCounts);
+    });
+    updateCounts();
+  }
+
+  async function load() {
+    if (!getAuthHeader()) { showLogin(); return; }
+    try {
+      const r = await authFetch('/api/admin/pending');
+      if (r.status === 401) { clearAuthHeader(); showLogin('Session expired — sign in again.'); return; }
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const data = await r.json();
+      render(data.items || []);
+    } catch (e) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#991b1b">
+        Failed to load: ${esc(e.message)}
+      </td></tr>`;
+    }
+  }
+
+  selectAll.addEventListener('change', () => {
+    tbody.querySelectorAll('input[type=checkbox]').forEach(cb => { cb.checked = selectAll.checked; });
+    updateCounts();
+  });
+
+  refreshBtn.addEventListener('click', load);
+
+  removeBtn.addEventListener('click', async () => {
+    const tickers = Array.from(tbody.querySelectorAll('input[type=checkbox]:checked'))
+      .map(cb => cb.dataset.ticker);
+    if (!tickers.length) return;
+    if (!confirm('Remove ' + tickers.length + ' item(s) from the review queue?\\n\\n(This does NOT delete the live chart — only marks them as reviewed.)')) return;
+    removeBtn.disabled = true;
+    try {
+      const r = await authFetch('/api/admin/pending/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tickers }),
+      });
+      if (r.status === 401) { clearAuthHeader(); showLogin('Session expired — sign in again.'); return; }
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const out = await r.json();
+      showFlash('Removed ' + out.removed + ' item(s). ' + out.remaining + ' remaining.', 'success');
+      load();
+    } catch (e) {
+      showFlash('Failed: ' + e.message, 'error');
+      removeBtn.disabled = false;
+    }
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>
