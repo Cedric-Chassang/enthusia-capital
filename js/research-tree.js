@@ -199,19 +199,6 @@ function mountLiveQuote(el, ticker) {
       node.innerHTML = `${price} <span class="co-quote-delta">(${change})</span>`;
     } catch (_) { /* silent */ }
   }
-  
-  let pollingDisabled = false;
-
-  async function refresh() {
-  if (pollingDisabled) return;
-  try {
-    const r = await fetch('/api/quote?ticker=' + encodeURIComponent(ticker));
-    if (r.status === 404) { pollingDisabled = true; return; }  // static host — give up
-    if (!r.ok) return;
-    // …rest of the existing body unchanged
-  } catch (_) { /* silent */ }
-}
-
 
   refresh();
   setInterval(() => { if (isMarketOpen()) refresh(); }, 15000);
