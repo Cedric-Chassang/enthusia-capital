@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<script>if(['localhost','127.0.0.1'].includes(location.hostname))document.documentElement.classList.add('is-local');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Services — Enthusia Capital</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
@@ -28,14 +29,14 @@
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="services.html" class="active">Services</a>
-    <a href="research.html">Market Research</a>
+    <a href="research.html" class="local-only">Market Research</a>
   </div>
 </nav>
 
 <div class="page-header">
   <div class="section-label" style="color:var(--green2);margin-bottom:.5rem">What We Offer</div>
   <h1>Our Services</h1>
-  <p>A full suite of research capabilities tailored to sophisticated market participants.</p>
+  <p>A full suite of research capabilities for individual investors who want institutional-grade rigour without the institutional gatekeeping.</p>
 </div>
 
 <div style="max-width:1100px;margin:0 auto;padding:2rem 2.5rem 0">
@@ -106,16 +107,16 @@
       </div>
     </div>
     <div class="service-card">
-      <div class="service-card-top"><i class="ti ti-globe"></i><h3>Macro &amp; Geopolitical</h3></div>
+      <div class="service-card-top"><i class="ti ti-globe"></i><h3>Investing 101</h3></div>
       <div class="service-card-body">
-        <p>Structured geopolitical risk frameworks and macroeconomic scenario planning tailored to investment portfolio stress-testing and strategic allocation decisions.</p>
-        <div><span class="tag">Scenario Planning</span><span class="tag">Risk Frameworks</span><span class="tag">Allocation Views</span></div>
+        <p>If you're starting your investment journey, ENTHUSIA CAPITAL helps you set the process in motion by introducing you to equity markets, options trading and their fundamental principles as well as guiding you through the limitless sources of information.</p>
+        <div><span class="tag">Investment Strategy</span><span class="tag">Risk Management</span><span class="tag">Market Research</span></div>
       </div>
     </div>
     <div class="service-card">
-      <div class="service-card-top"><i class="ti ti-certificate"></i><h3>Institutional Membership</h3></div>
+      <div class="service-card-top"><i class="ti ti-certificate"></i><h3>All-Access Membership</h3></div>
       <div class="service-card-body">
-        <p>Premium annual membership granting full access to all published research, the on-demand request portal, analyst calls and the historical research archive.</p>
+        <p>Annual subscription granting full access to all published research, the on-demand request portal, analyst calls and the historical research archive.</p>
         <div><span class="tag">Full Archive</span><span class="tag">Analyst Calls</span><span class="tag">On-Demand Portal</span></div>
       </div>
     </div>
@@ -136,8 +137,16 @@
 </div>
 
 <footer>
-  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
-  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Research &amp; Intelligence &nbsp;·&nbsp; Dubai, UAE<br>
+  <span class="local-only">
+    <a href="legal.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Legal</a> &nbsp;·&nbsp;
+    <a href="legal-disclaimer.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Disclaimer</a> &nbsp;·&nbsp;
+    <a href="legal-privacy.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Privacy</a> &nbsp;·&nbsp;
+    <a href="legal-terms.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Terms</a> &nbsp;·&nbsp;
+    <a href="legal-cookies.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Cookies</a> &nbsp;·&nbsp;
+    <a href="legal-imprint.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Imprint</a><br>
+  </span>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 ENTHUSIA CAPITAL - FZCO (IFZA Licence No. 63992). All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
 </footer>
 
 <script>

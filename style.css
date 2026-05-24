@@ -4,6 +4,10 @@
   --green:#2e7d52;--green2:#4caf7d;
   --text:#1a1a2e;--muted:#5a6478;--bg:#f8f7f4;--white:#ffffff;
   --border:#e2ddd5;--radius:10px;
+  /* Constrain header/nav content to the same width as the main page wrappers
+     while keeping the coloured backgrounds full-bleed across the viewport. */
+  --site-max-w:1100px;
+  --site-pad-x:2.5rem;
 }
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6}
 a{text-decoration:none;color:inherit}
@@ -20,7 +24,7 @@ button{cursor:pointer;font-family:inherit}
 .tick-down{color:#f06560}
 .tick-sep{display:inline-block;width:1px;height:14px;background:rgba(255,255,255,.1);margin:0 2px;vertical-align:middle}
 .tick-gap{display:inline-block;width:40px}
-nav{background:var(--navy);padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:34px;z-index:100}
+nav{background:var(--navy);padding:0 max(var(--site-pad-x), calc((100% - var(--site-max-w)) / 2));display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:34px;z-index:100}
 .logo{display:flex;align-items:center;gap:7px;cursor:pointer}
 .logo-mark{width:63px;height:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo-text{color:#fff;font-family:'Raleway',sans-serif;font-size:20px;letter-spacing:.6px;line-height:1}
@@ -64,7 +68,7 @@ nav{background:var(--navy);padding:0 2.5rem;display:flex;align-items:center;just
 .home-cta h2{font-size:2rem;font-weight:700;margin-bottom:.75rem}
 .home-cta p{color:#a8b4cc;margin-bottom:2rem;font-size:1.05rem}
 
-.page-header{background:var(--navy);padding:4rem 2.5rem 3rem;color:#fff;border-bottom:3px solid var(--green)}
+.page-header{background:var(--navy);padding:4rem max(var(--site-pad-x), calc((100% - var(--site-max-w)) / 2)) 3rem;color:#fff;border-bottom:3px solid var(--green)}
 .page-header h1{font-size:2.2rem;font-weight:700;margin-bottom:.5rem}
 .page-header p{color:#a8b4cc;font-size:1rem;max-width:520px}
 
@@ -286,6 +290,37 @@ select.filter-sel:focus{border-color:var(--green)}
 .wb-right button:hover{background:rgba(255,255,255,.22)}
 .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:2rem}
 .dash-stat{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem}
+
+/* ── Local-only "Copy-paste to X" share panel ────────────────────────────
+   Rendered only when location.hostname is localhost/127.0.0.1 — never
+   appears on the published GitHub Pages build. Sits below the calendar on
+   research.html and below the sankey chart inside the LATEST EARNINGS
+   collapsible on company.html. */
+.share-panel{margin:1.25rem 0 0;padding:1rem 1.25rem;background:#fefce8;border:1px solid #fde68a;border-radius:8px;font-size:13px;color:#0f172a}
+.share-panel-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap}
+.share-panel-header i{color:#92400e}
+.share-panel-header h4{margin:0;font-size:.95rem;color:#0f172a}
+.share-panel-badge{margin-left:auto;font-size:10.5px;padding:.15rem .5rem;background:#fef3c7;color:#92400e;border-radius:4px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;border:1px solid #fde68a}
+.share-panel-text{width:100%;min-height:170px;padding:.75rem .9rem;background:#fff;border:1px solid #e2e8f0;border-radius:6px;font-family:'Segoe UI',system-ui,sans-serif;font-size:13.5px;line-height:1.55;resize:vertical;color:#0f172a;box-sizing:border-box;font-variant-numeric:tabular-nums}
+.share-panel-text:focus{outline:none;border-color:#2563a8;box-shadow:0 0 0 3px rgba(37,99,168,.12)}
+.share-panel-meta{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:#92400e;margin-top:.4rem}
+.share-panel-meta .over-limit{color:#b91c1c;font-weight:600}
+.share-panel-actions{display:flex;gap:.5rem;margin-top:.85rem;flex-wrap:wrap}
+.share-btn{background:#fff;border:1px solid #cbd5e1;color:#334155;padding:.5rem .85rem;border-radius:6px;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;text-decoration:none;font-family:inherit;transition:.15s;font-weight:500}
+.share-btn:hover{background:#f1f5f9;border-color:#94a3b8}
+.share-btn.primary{background:#2563a8;color:#fff;border-color:#2563a8}
+.share-btn.primary:hover{background:#1e4f87}
+.share-btn.success{background:#16a34a;color:#fff;border-color:#16a34a}
+.share-btn.success:hover{background:#15803d}
+.share-panel-hint{margin-top:.7rem;font-size:11.5px;color:#92400e;line-height:1.55}
+.share-panel-hint a{color:#92400e;text-decoration:underline}
+
+/* ── Local-only visibility marker ────────────────────────────────────────
+   Items tagged .local-only are hidden by default and only revealed when
+   the inline script at the top of each <head> sets html.is-local on
+   localhost/127.0.0.1. Public visitors never see them. */
+.local-only{display:none !important}
+html.is-local .local-only{display:revert !important}
 .dash-stat .ds-num{font-size:1.75rem;font-weight:700;color:var(--green)}
 .dash-stat .ds-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:.2rem}
 .client-section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1.5rem}

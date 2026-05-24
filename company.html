@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<script>if(['localhost','127.0.0.1'].includes(location.hostname))document.documentElement.classList.add('is-local');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title id="page-title">Company — Enthusia Capital</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
@@ -28,7 +29,7 @@
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="services.html">Services</a>
-    <a href="research.html" class="active">Market Research</a>
+    <a href="research.html" class="local-only active">Market Research</a>
   </div>
 </nav>
 
@@ -41,8 +42,16 @@
 <div class="company-body" id="body"></div>
 
 <footer>
-  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
-  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Research &amp; Intelligence &nbsp;·&nbsp; Dubai, UAE<br>
+  <span class="local-only">
+    <a href="legal.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Legal</a> &nbsp;·&nbsp;
+    <a href="legal-disclaimer.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Disclaimer</a> &nbsp;·&nbsp;
+    <a href="legal-privacy.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Privacy</a> &nbsp;·&nbsp;
+    <a href="legal-terms.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Terms</a> &nbsp;·&nbsp;
+    <a href="legal-cookies.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Cookies</a> &nbsp;·&nbsp;
+    <a href="legal-imprint.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Imprint</a><br>
+  </span>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 ENTHUSIA CAPITAL - FZCO (IFZA Licence No. 63992). All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
 </footer>
 
 <script src="js/research-tree.js"></script>
@@ -154,7 +163,7 @@
   const sectionsHTML = SECTIONS.map(s => {
     const isEarnings = s.id === 'earnings';
     const slot = isEarnings && hasEarnings
-      ? '<div id="earnings-slot"></div>'
+      ? '<div id="earnings-slot"></div><div id="sankey-share-slot"></div>'
       : '<p class="empty-note">Content coming soon.</p>';
     // Auto-open the earnings section when content exists, for discoverability
     const openClass = isEarnings && hasEarnings ? ' open' : '';
@@ -187,6 +196,96 @@
     const s = document.createElement('script');
     s.src = EARNINGS_MODULES[ticker];
     document.body.appendChild(s);
+  }
+
+  // ── LOCAL-ONLY: copy-paste-to-X share panel for the sankey chart ────────
+  // Each earnings module dispatches an 'enthusia-earnings-ready' event after
+  // it has injected its chart and exposed KPI/GUIDANCE on window.__enthusiaEarnings.
+  // The handler below picks that up and renders a share panel under the chart.
+  const IS_LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
+  if (IS_LOCAL && hasEarnings) {
+    window.addEventListener('enthusia-earnings-ready', (ev) => {
+      if (ev.detail?.ticker !== ticker) return;
+      renderSankeyShare(ticker);
+    });
+    // Fallback if the module already loaded synchronously (cache hit)
+    setTimeout(() => {
+      if (!document.getElementById('sankey-share-rendered')) renderSankeyShare(ticker);
+    }, 1200);
+  }
+
+  function renderSankeyShare(t) {
+    const slot = document.getElementById('sankey-share-slot');
+    const data = (window.__enthusiaEarnings || {})[t];
+    if (!slot || !data || document.getElementById('sankey-share-rendered')) return;
+
+    const beatEmoji = b => b === true ? '🟢' : b === false ? '🔴' : '⚪';
+
+    const lines = [`$${t} ${data.period} income statement`, ''];
+    for (const k of data.KPI || []) {
+      let line = '';
+      const label = k.label || '';
+      if (/revenue/i.test(label))       line = `📊 ${label}: ${k.actual}`;
+      else if (/eps/i.test(label))      line = `💰 ${label}: ${k.actual}`;
+      else if (/margin/i.test(label))   line = `📈 ${label}: ${k.actual}`;
+      else                              line = `· ${label}: ${k.actual}`;
+      if (k.est) line += ` (vs ${k.est} est) ${beatEmoji(k.beat)}`;
+      lines.push(line);
+    }
+    if (data.GUIDANCE?.value) {
+      lines.push('');
+      lines.push(`🎯 Guide: ${data.GUIDANCE.value}` + (data.GUIDANCE.note ? ` — ${data.GUIDANCE.note}` : ''));
+    }
+    const body = lines.join('\n').replace(/\n+$/, '');   // trim trailing blank lines
+
+    const charsAfterCollapse = body.length;   // no URLs in the body
+    const overLimit = charsAfterCollapse > 280;
+    const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(body)}`;
+    const escHtml = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    slot.innerHTML = `
+      <div class="share-panel" id="sankey-share-rendered">
+        <div class="share-panel-header">
+          <i class="ti ti-share"></i>
+          <h4>Copy-paste to X · ${escHtml(t)} ${escHtml(data.period)}</h4>
+          <span class="share-panel-badge">Local only · not on the published site</span>
+        </div>
+        <textarea class="share-panel-text" id="sankey-tweet-text" spellcheck="false">${escHtml(body)}</textarea>
+        <div class="share-panel-meta">
+          <span>Tweet body (editable before copy)</span>
+          <span class="${overLimit ? 'over-limit' : ''}">${charsAfterCollapse} / 280 chars after X URL collapse</span>
+        </div>
+        <div class="share-panel-actions">
+          <button class="share-btn primary" id="sankey-tweet-copy"><i class="ti ti-copy"></i> Copy text</button>
+          <button class="share-btn" id="sankey-tweet-dl"><i class="ti ti-download"></i> Download PNG</button>
+          <a class="share-btn" href="${intentUrl}" target="_blank"><i class="ti ti-external-link"></i> Open X composer (pre-filled text)</a>
+        </div>
+        <div class="share-panel-hint">
+          <strong>Workflow:</strong> Copy text → Download PNG → Open X composer → drag the PNG into the composer → Post.
+          X Web Intents can't pre-attach images, so the PNG step is one drag-and-drop.
+        </div>
+      </div>
+    `;
+
+    document.getElementById('sankey-tweet-copy').addEventListener('click', async () => {
+      const ta = document.getElementById('sankey-tweet-text');
+      try {
+        await navigator.clipboard.writeText(ta.value);
+        const btn = document.getElementById('sankey-tweet-copy');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="ti ti-check"></i> Copied!';
+        btn.classList.add('success');
+        setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('success'); }, 2000);
+      } catch (_) {
+        ta.select(); document.execCommand('copy');
+      }
+    });
+
+    document.getElementById('sankey-tweet-dl').addEventListener('click', () => {
+      const fn = window[`__downloadEarningsPNG_${t.toUpperCase()}`];
+      if (typeof fn === 'function') fn();
+      else if (typeof data.download === 'function') data.download();
+    });
   }
 })();
 </script>

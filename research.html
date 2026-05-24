@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<script>
+  // Guard: redirect to home when accessed from any host other than localhost.
+  if(!['localhost','127.0.0.1'].includes(location.hostname)){location.replace('index.html');}
+  document.documentElement.classList.add('is-local');
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Market Research — Enthusia Capital</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
@@ -29,7 +34,7 @@
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="services.html">Services</a>
-    <a href="research.html" class="active">Market Research</a>
+    <a href="research.html" class="local-only active">Market Research</a>
   </div>
 </nav>
 
@@ -95,12 +100,23 @@
         <div class="cal-status"><i class="ti ti-loader-2"></i>Loading calendar…</div>
       </div>
     </div>
+
+    <!-- LOCAL-ONLY: copy-paste to X. Hidden on the published site (filled in by JS only when on localhost). -->
+    <div id="share-panel-slot"></div>
   </main>
 </div>
 
 <footer>
-  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
-  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Research &amp; Intelligence &nbsp;·&nbsp; Dubai, UAE<br>
+  <span class="local-only">
+    <a href="legal.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Legal</a> &nbsp;·&nbsp;
+    <a href="legal-disclaimer.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Disclaimer</a> &nbsp;·&nbsp;
+    <a href="legal-privacy.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Privacy</a> &nbsp;·&nbsp;
+    <a href="legal-terms.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Terms</a> &nbsp;·&nbsp;
+    <a href="legal-cookies.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Cookies</a> &nbsp;·&nbsp;
+    <a href="legal-imprint.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Imprint</a><br>
+  </span>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 ENTHUSIA CAPITAL - FZCO (IFZA Licence No. 63992). All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
 </footer>
 
 <script>
@@ -235,9 +251,119 @@ async function downloadCalendarPNG() {
       const d = new Date(cal.lastUpdated);
       metaSpan.textContent = 'Refreshed ' + d.toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
     }
+
+    // ── LOCAL-ONLY: render the copy-paste-to-X share panel ────────────
+    const IS_LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
+    if (IS_LOCAL) {
+      let companies = {};
+      try {
+        const r2 = await fetch('data/companies.json');
+        if (r2.ok) companies = (await r2.json()).companies || {};
+      } catch (_) { /* market-cap ranking will fall back to alphabetical */ }
+      renderSharePanel(cal, companies);
+    }
   } catch (e) {
     console.warn('Calendar fetch failed:', e);
     content.innerHTML = `<div class="cal-status"><i class="ti ti-alert-circle"></i>Calendar unavailable. ${esc(String(e?.message || e))}</div>`;
+  }
+
+  // ── Share-panel renderer ──────────────────────────────────────────────
+  function renderSharePanel(cal, companies) {
+    const slot = document.getElementById('share-panel-slot');
+    if (!slot) return;
+
+    // Filter events to the upcoming Monday–Friday
+    const today = new Date(); today.setHours(0,0,0,0);
+    const daysUntilMon = (8 - today.getDay()) % 7 || 7;
+    const monday = new Date(today); monday.setDate(today.getDate() + daysUntilMon);
+    const friday = new Date(monday); friday.setDate(monday.getDate() + 4);
+    const fmt = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    const monKey = fmt(monday), friKey = fmt(friday);
+    const events = (cal.events || []).filter(e => e.date >= monKey && e.date <= friKey);
+
+    if (!events.length) {
+      slot.innerHTML = `<div class="share-panel">
+        <div class="share-panel-header">
+          <i class="ti ti-share"></i><h4>Copy-paste to X</h4>
+          <span class="share-panel-badge">Local only</span>
+        </div>
+        <div style="padding:.25rem;color:#92400e">No covered reporters next week — nothing to share.</div>
+      </div>`;
+      return;
+    }
+
+    // Rank marquee names by market cap (top 6); fall back to whatever order
+    // calendar.json supplies if companies.json couldn't be loaded.
+    const mcap = sym => Number((companies[sym] || {}).marketCap || 0);
+    const ranked = [...events].sort((a,b) => mcap(b.symbol) - mcap(a.symbol));
+    const marquee = ranked.slice(0, 6);
+
+    // Group by weekday + BMO/AMC bucket
+    const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const byDay = {};
+    for (const e of marquee) {
+      const dd = new Date(e.date + 'T12:00:00');
+      const day = DAY_NAMES[dd.getDay()];
+      const hour = (e.hour || '').toUpperCase() || 'TBD';
+      (byDay[day] ||= {})[hour] = (byDay[day][hour] || []);
+      byDay[day][hour].push('$' + e.symbol);
+    }
+
+    const lines = ['Week ahead — covered earnings', ''];
+    lines.push(`${events.length} reporters across S&P 500 + NASDAQ 100. Marquee:`);
+    lines.push('');
+    for (const day of ['Mon','Tue','Wed','Thu','Fri']) {
+      if (!byDay[day]) continue;
+      for (const hour of ['BMO','AMC','TBD']) {
+        if (byDay[day][hour]) {
+          lines.push(`${day} ${hour} · ${byDay[day][hour].join(' ')}`);
+        }
+      }
+    }
+    const body = lines.join('\n').replace(/\n+$/, '');   // trim trailing blank lines
+
+    const charsAfterCollapse = body.length;   // no URLs in the body
+    const overLimit = charsAfterCollapse > 280;
+
+    const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(body)}`;
+
+    slot.innerHTML = `
+      <div class="share-panel">
+        <div class="share-panel-header">
+          <i class="ti ti-share"></i>
+          <h4>Copy-paste to X · week of ${monday.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</h4>
+          <span class="share-panel-badge">Local only · not on the published site</span>
+        </div>
+        <textarea class="share-panel-text" id="cal-tweet-text" spellcheck="false">${esc(body)}</textarea>
+        <div class="share-panel-meta">
+          <span>Tweet body (editable before copy)</span>
+          <span class="${overLimit ? 'over-limit' : ''}">${charsAfterCollapse} / 280 chars after X URL collapse</span>
+        </div>
+        <div class="share-panel-actions">
+          <button class="share-btn primary" id="cal-tweet-copy"><i class="ti ti-copy"></i> Copy text</button>
+          <button class="share-btn" onclick="downloadCalendarPNG()"><i class="ti ti-download"></i> Download PNG</button>
+          <a class="share-btn" href="${intentUrl}" target="_blank"><i class="ti ti-external-link"></i> Open X composer (pre-filled text)</a>
+        </div>
+        <div class="share-panel-hint">
+          <strong>Workflow:</strong> Copy text → Download PNG → Open X composer → drag the PNG into the composer → Post.
+          X Web Intents can't pre-attach images, so the PNG step is manual (one drag-and-drop).
+        </div>
+      </div>
+    `;
+
+    document.getElementById('cal-tweet-copy').addEventListener('click', async () => {
+      const ta = document.getElementById('cal-tweet-text');
+      try {
+        await navigator.clipboard.writeText(ta.value);
+        const btn = document.getElementById('cal-tweet-copy');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="ti ti-check"></i> Copied!';
+        btn.classList.add('success');
+        setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('success'); }, 2000);
+      } catch (err) {
+        ta.select(); document.execCommand('copy');
+      }
+    });
   }
 })();
 </script>

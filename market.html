@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<script>if(['localhost','127.0.0.1'].includes(location.hostname))document.documentElement.classList.add('is-local');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title id="page-title">Market — Enthusia Capital</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
@@ -28,7 +29,7 @@
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="services.html">Services</a>
-    <a href="research.html" class="active">Market Research</a>
+    <a href="research.html" class="local-only active">Market Research</a>
   </div>
 </nav>
 
@@ -43,8 +44,16 @@
 </div>
 
 <footer>
-  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
-  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Research &amp; Intelligence &nbsp;·&nbsp; Dubai, UAE<br>
+  <span class="local-only">
+    <a href="legal.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Legal</a> &nbsp;·&nbsp;
+    <a href="legal-disclaimer.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Disclaimer</a> &nbsp;·&nbsp;
+    <a href="legal-privacy.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Privacy</a> &nbsp;·&nbsp;
+    <a href="legal-terms.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Terms</a> &nbsp;·&nbsp;
+    <a href="legal-cookies.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Cookies</a> &nbsp;·&nbsp;
+    <a href="legal-imprint.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Imprint</a><br>
+  </span>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 ENTHUSIA CAPITAL - FZCO (IFZA Licence No. 63992). All rights reserved. Research is for informational purposes only and does not constitute investment advice.</span>
 </footer>
 
 <script src="js/research-tree.js"></script>

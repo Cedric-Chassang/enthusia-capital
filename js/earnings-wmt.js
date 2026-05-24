@@ -292,4 +292,9 @@
       </button>
     </div>
   `;
+
+  // Expose data for the localhost copy-paste-to-X share panel on company.html.
+  window.__enthusiaEarnings = window.__enthusiaEarnings || {};
+  window.__enthusiaEarnings['WMT'] = { ticker: 'WMT', period: 'Q1 FY27', KPI, GUIDANCE, download: downloadPNG };
+  window.dispatchEvent(new CustomEvent('enthusia-earnings-ready', { detail: { ticker: 'WMT' } }));
 })();

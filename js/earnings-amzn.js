@@ -315,4 +315,9 @@
       </button>
     </div>
   `;
+
+  // Expose data for the localhost copy-paste-to-X share panel on company.html.
+  window.__enthusiaEarnings = window.__enthusiaEarnings || {};
+  window.__enthusiaEarnings['AMZN'] = { ticker: 'AMZN', period: 'Q1 2026', KPI, GUIDANCE, download: downloadPNG };
+  window.dispatchEvent(new CustomEvent('enthusia-earnings-ready', { detail: { ticker: 'AMZN' } }));
 })();

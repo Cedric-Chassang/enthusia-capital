@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<script>if(['localhost','127.0.0.1'].includes(location.hostname))document.documentElement.classList.add('is-local');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
 <title>Admin — Enthusia Capital</title>
@@ -83,7 +84,7 @@ input[type="checkbox"]{cursor:pointer;width:16px;height:16px;accent-color:#2563a
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="services.html">Services</a>
-    <a href="research.html">Market Research</a>
+    <a href="research.html" class="local-only">Market Research</a>
   </div>
 </nav>
 
@@ -154,8 +155,16 @@ input[type="checkbox"]{cursor:pointer;width:16px;height:16px;accent-color:#2563a
 </div>
 
 <footer>
-  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Intelligence &amp; Research &nbsp;·&nbsp; Dubai, UAE<br>
-  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 Enthusia Capital. All rights reserved.</span>
+  <strong>Enthusia Capital</strong> &nbsp;·&nbsp; Market Research &amp; Intelligence &nbsp;·&nbsp; Dubai, UAE<br>
+  <span class="local-only">
+    <a href="legal.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Legal</a> &nbsp;·&nbsp;
+    <a href="legal-disclaimer.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Disclaimer</a> &nbsp;·&nbsp;
+    <a href="legal-privacy.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Privacy</a> &nbsp;·&nbsp;
+    <a href="legal-terms.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Terms</a> &nbsp;·&nbsp;
+    <a href="legal-cookies.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Cookies</a> &nbsp;·&nbsp;
+    <a href="legal-imprint.html" style="color:#a8b4cc;text-decoration:none;font-size:12px">Imprint</a><br>
+  </span>
+  <span style="font-size:12px;margin-top:.5rem;display:inline-block">© 2025 ENTHUSIA CAPITAL - FZCO (IFZA Licence No. 63992). All rights reserved.</span>
 </footer>
 
 <script src="ticker.js"></script>
