@@ -1,8 +1,43 @@
 {
-  "lastUpdated": "2026-05-23",
-  "from": "2026-05-23",
-  "to": "2026-06-02",
+  "lastUpdated": "2026-05-24",
+  "from": "2026-05-24",
+  "to": "2026-06-03",
   "events": [
+    {
+      "symbol": "CRWD",
+      "date": "2026-06-03",
+      "hour": "",
+      "name": "CrowdStrike Holdings Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/CRWD.png"
+    },
+    {
+      "symbol": "AVGO",
+      "date": "2026-06-03",
+      "hour": "amc",
+      "name": "Broadcom Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/AVGO.png"
+    },
+    {
+      "symbol": "VEEV",
+      "date": "2026-06-03",
+      "hour": "amc",
+      "name": "Veeva Systems Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/VEEV.png"
+    },
+    {
+      "symbol": "LULU",
+      "date": "2026-06-03",
+      "hour": "amc",
+      "name": "Lululemon Athletica Inc",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/LULU.png"
+    },
+    {
+      "symbol": "MDT",
+      "date": "2026-06-03",
+      "hour": "amc",
+      "name": "Medtronic PLC",
+      "logo": "https://static2.finnhub.io/file/publicdatany/finnhubimage/stock_logo/MDT.png"
+    },
     {
       "symbol": "DG",
       "date": "2026-06-02",
