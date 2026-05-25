@@ -33,7 +33,7 @@
   </a>
   <div class="nav-links">
     <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
+    <a href="contact.html">Contact us</a>
     <a href="research.html" class="local-only active">Market Research</a>
   </div>
 </nav>
@@ -89,12 +89,18 @@
     <div class="cal-wrap" id="cal-wrap">
       <div class="cal-head">
         <div class="cal-head-left">
+          <div class="cal-brand">
+            <svg width="52" height="33" viewBox="5 15 155 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M 13,18.5 H 58 L 49,32.5 H 13 Q 10,32.5 10,29.5 V 21.5 Q 10,18.5 13,18.5 Z" fill="#0a1628"/>
+              <path d="M 13,49 H 42 V 63 H 13 Q 10,63 10,60 V 52 Q 10,49 13,49 Z" fill="#0a1628"/>
+              <path d="M 13,79.5 H 49 L 58,93.5 H 13 Q 10,93.5 10,90.5 V 82.5 Q 10,79.5 13,79.5 Z" fill="#0a1628"/>
+              <path d="M 111.7 30.8 A 32 32 0 1 0 111.7 81.2" fill="none" stroke="#0a1628" stroke-width="11" stroke-linecap="butt"/>
+              <polygon points="128.98,66.30 116.86,98.10 95.14,69.30" fill="#2e7d52"/>
+            </svg>
+            <span class="cal-brand-text"><span style="font-weight:600">ENTHUSIA</span> <span style="font-weight:300">CAPITAL</span></span>
+          </div>
           <h2>Upcoming Earnings — Next 5 Business Days</h2>
-          <span class="cal-sub" id="cal-meta"></span>
         </div>
-        <button class="cal-dl-btn" id="cal-dl" onclick="downloadCalendarPNG()">
-          <i class="ti ti-download"></i> Download PNG
-        </button>
       </div>
       <div id="cal-content">
         <div class="cal-status"><i class="ti ti-loader-2"></i>Loading calendar…</div>
@@ -121,18 +127,14 @@
 
 <script>
 // ─── Download the calendar block as a PNG ──────────────────────────────────
+// Called from the share panel below the calendar. Captures #cal-wrap as a
+// 2x-DPR PNG and triggers a browser download.
 async function downloadCalendarPNG() {
   const target = document.getElementById('cal-wrap');
-  const btn    = document.getElementById('cal-dl');
   if (!target || typeof html2canvas !== 'function') {
     alert('PNG export library not loaded yet — please retry in a moment.');
     return;
   }
-  const originalHTML = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = '<i class="ti ti-loader-2"></i> Generating…';
-  // Hide the button so it doesn't appear in the screenshot
-  btn.style.visibility = 'hidden';
   try {
     const canvas = await html2canvas(target, {
       scale: 2,
@@ -148,17 +150,12 @@ async function downloadCalendarPNG() {
   } catch (e) {
     console.warn('PNG download failed:', e);
     alert('Could not generate PNG: ' + (e?.message || e));
-  } finally {
-    btn.style.visibility = 'visible';
-    btn.innerHTML = originalHTML;
-    btn.disabled = false;
   }
 }
 
 // ─── Earnings calendar renderer ─────────────────────────────────────────────
 (async function () {
   const content  = document.getElementById('cal-content');
-  const metaSpan = document.getElementById('cal-meta');
 
   function esc(s) {
     return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -247,10 +244,6 @@ async function downloadCalendarPNG() {
     }).join('');
 
     content.innerHTML = `<div class="cal-grid">${html}</div>`;
-    if (cal.lastUpdated) {
-      const d = new Date(cal.lastUpdated);
-      metaSpan.textContent = 'Refreshed ' + d.toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
-    }
 
     // ── LOCAL-ONLY: render the copy-paste-to-X share panel ────────────
     const IS_LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);

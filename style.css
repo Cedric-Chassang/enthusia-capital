@@ -36,7 +36,7 @@ nav{background:var(--navy);padding:0 max(var(--site-pad-x), calc((100% - var(--s
 .nav-cta:hover{background:var(--green2)!important}
 
 .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 60%,#0d2d5e 100%);color:#fff;padding:6rem 2.5rem 5rem;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7d52' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7d52' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
 .hero-tag{display:inline-block;background:rgba(46,125,82,.2);border:1px solid rgba(76,175,125,.4);color:var(--green2);font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:1.5rem}
 .hero h1{font-size:3rem;font-weight:700;line-height:1.15;max-width:720px;margin:0 auto 1.25rem}
 .hero h1 span{color:var(--green2)}
@@ -182,7 +182,11 @@ nav{background:var(--navy);padding:0 max(var(--site-pad-x), calc((100% - var(--s
 /* Earnings calendar (below search) */
 .cal-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem}
 .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
-.cal-head-left{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.cal-head-left{display:flex;flex-direction:row;align-items:center;gap:1rem;flex-wrap:wrap}
+.cal-head-left h2{padding-left:1rem;border-left:1px solid #cbd5e1}
+.cal-brand{display:flex;align-items:center;gap:.55rem}
+.cal-brand svg{flex-shrink:0}
+.cal-brand-text{font-family:'Raleway',sans-serif;font-size:14px;letter-spacing:.6px;line-height:1;color:var(--navy)}
 .cal-head h2{font-size:14px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.7px}
 .cal-head .cal-sub{font-size:11px;color:var(--muted)}
 .cal-dl-btn{background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;transition:.15s}
