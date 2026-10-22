@@ -1,0 +1,39 @@
+# Publishes real (delayed) quotes for the scrolling price bar.
+# Writes ticker.json to the `ticker-data` branch as ONE force-pushed commit,
+# so main's history and the GitHub Pages build are not touched.
+# Keyless (Yahoo Finance chart API); uses only the built-in GITHUB_TOKEN.
+name: Ticker data
+
+on:
+  schedule:
+    - cron: '7,37 6-21 * * 0-5'   # every 30 min, 06-21 UTC Sun-Fri (Tadawul, QE, US hours)
+    - cron: '7 */4 * * 6'         # Saturday every 4 h (crypto)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ticker-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Previous data (for last-known fallback)
+        run: curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/ticker-data/ticker.json" -o prev.json || echo '{}' > prev.json
+      - name: Fetch quotes
+        run: node scripts/fetch-ticker.mjs --prev prev.json --out out/ticker.json
+      - name: Publish to ticker-data branch
+        working-directory: out
+        run: |
+          git init -q -b ticker-data
+          git add ticker.json
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "ticker data $(date -u +%FT%TZ)"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" ticker-data

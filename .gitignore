@@ -16,4 +16,5 @@ scripts/*.log
 data/staging/
 # OS junk
 .DS_Store
-Thumbs.db
+Thumbs.db# Local copy of the ticker data (published by the ticker-data workflow)
+data/ticker.json
