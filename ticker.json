@@ -1,0 +1,159 @@
+{
+ "generatedAt": "2026-11-14T14:59:36.555Z",
+ "source": "Yahoo Finance, delayed",
+ "items": [
+  {
+   "label": "S&P 500",
+   "yahoo": "^GSPC",
+   "price": 7561.67,
+   "prevClose": 7592.4,
+   "change": -0.4,
+   "currency": "USD",
+   "marketTime": 1794606199000
+  },
+  {
+   "label": "NASDAQ",
+   "yahoo": "^IXIC",
+   "price": 25136.27,
+   "prevClose": 25366.1,
+   "change": -0.91,
+   "currency": "USD",
+   "marketTime": 1794608159000
+  },
+  {
+   "label": "DOW",
+   "yahoo": "^DJI",
+   "price": 52347.55,
+   "prevClose": 52297.1,
+   "change": 0.1,
+   "currency": "USD",
+   "marketTime": 1794606206000
+  },
+  {
+   "label": "AAPL",
+   "yahoo": "AAPL",
+   "price": 356.27,
+   "prevClose": 354.88,
+   "change": 0.39,
+   "currency": "USD",
+   "marketTime": 1794603601000
+  },
+  {
+   "label": "MSFT",
+   "yahoo": "MSFT",
+   "price": 523.88,
+   "prevClose": 523,
+   "change": 0.17,
+   "currency": "USD",
+   "marketTime": 1794603601000
+  },
+  {
+   "label": "NVDA",
+   "yahoo": "NVDA",
+   "price": 162.85,
+   "prevClose": 166.19,
+   "change": -2.01,
+   "currency": "USD",
+   "marketTime": 1794603601000
+  },
+  {
+   "label": "GOOGL",
+   "yahoo": "GOOGL",
+   "price": 295.77,
+   "prevClose": 298.7,
+   "change": -0.98,
+   "currency": "USD",
+   "marketTime": 1794603601000
+  },
+  {
+   "label": "META",
+   "yahoo": "META",
+   "price": 641.69,
+   "prevClose": 623.61,
+   "change": 2.9,
+   "currency": "USD",
+   "marketTime": 1794603601000
+  },
+  {
+   "label": "AMZN",
+   "yahoo": "AMZN",
+   "price": 266.66,
+   "prevClose": 267.44,
+   "change": -0.29,
+   "currency": "USD",
+   "marketTime": 1794603600000
+  },
+  {
+   "label": "TSLA",
+   "yahoo": "TSLA",
+   "price": 390.22,
+   "prevClose": 397.45,
+   "change": -1.82,
+   "currency": "USD",
+   "marketTime": 1794603600000
+  },
+  {
+   "label": "ARAMCO",
+   "yahoo": "2222.SR",
+   "price": 26.4,
+   "prevClose": 26.02,
+   "change": 1.46,
+   "currency": "SAR",
+   "marketTime": 1794485999000
+  },
+  {
+   "label": "SABIC",
+   "yahoo": "2010.SR",
+   "price": 48.58,
+   "prevClose": 48.5,
+   "change": 0.16,
+   "currency": "SAR",
+   "marketTime": 1794485881000
+  },
+  {
+   "label": "QNB",
+   "yahoo": "QNBK.QA",
+   "price": 18,
+   "prevClose": 18.1,
+   "change": -0.55,
+   "currency": "QAR",
+   "marketTime": 1794478250000
+  },
+  {
+   "label": "GOLD",
+   "yahoo": "GC=F",
+   "price": 3886.3,
+   "prevClose": 3885.3,
+   "change": 0.03,
+   "currency": "USD",
+   "marketTime": 1794607199000
+  },
+  {
+   "label": "WTI",
+   "yahoo": "CL=F",
+   "price": 88.56,
+   "prevClose": 88.74,
+   "change": -0.2,
+   "currency": "USD",
+   "marketTime": 1794607200000
+  },
+  {
+   "label": "BTC",
+   "yahoo": "BTC-USD",
+   "price": 65874.94,
+   "prevClose": 68238.21,
+   "change": -3.46,
+   "currency": "USD",
+   "marketTime": 1794668374000
+  },
+  {
+   "label": "ETH",
+   "yahoo": "ETH-USD",
+   "price": 1851.73,
+   "prevClose": 1927.4059,
+   "change": -3.93,
+   "currency": "USD",
+   "marketTime": 1794668372000
+  }
+ ]
+}
